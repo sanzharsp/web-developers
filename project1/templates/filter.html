@@ -1,0 +1,420 @@
+{% extends 'extends.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}"> 
+        
+<div class="body__overlay"></div>
+<!-- Start Offset Wrapper -->
+<div class="offset__wrapper">
+    <!-- Start Search Popap -->
+    <div class="search__area">
+        <div class="container" >
+            <div class="row" >
+                <div class="col-md-12" >
+                    <div class="search__inner">
+                        <form action="{% url 'search_results' %}" method="get">
+                            <input name="q" placeholder="Search here... " type="text">
+                            <button type="submit"></button>
+                        </form>
+                          <div class="search__close__btn">
+                            <span class="search__close__btn_icon"><i class="zmdi zmdi-close"></i></span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Search Popap -->
+    <!-- Start Offset MEnu -->
+    <div class="offsetmenu">
+        <div class="offsetmenu__inner">
+            <div class="offsetmenu__close__btn">
+                <a href="#"><i class="zmdi zmdi-close"></i></a>
+            </div>
+            <div class="off__contact">
+                <div class="logo">
+                    <a href="{% url 'index' %}">
+                        <img src="{% static 'images/logo/logo.png' %}" alt="logo">
+                    </a>
+                </div>
+                <p>Lorem ipsum dolor sit amet consectetu adipisicing elit sed do eiusmod tempor incididunt ut labore.</p>
+            </div>
+            <ul class="sidebar__thumd">
+                <li><a href="#"><img src="{% static 'images/sidebar-img/1.jpg' %}" alt="sidebar images"></a></li>
+                <li><a href="#"><img src="{% static 'images/sidebar-img/2.jpg' %}" alt="sidebar images"></a></li>
+                <li><a href="#"><img src="{% static 'images/sidebar-img/3.jpg' %}" alt="sidebar images"></a></li>
+                <li><a href="#"><img src="{% static 'images/sidebar-img/4.jpg' %}" alt="sidebar images"></a></li>
+                <li><a href="#"><img src="{% static 'images/sidebar-img/5.jpg' %}" alt="sidebar images"></a></li>
+                <li><a href="#"><img src="{% static 'images/sidebar-img/6.jpg' %}" alt="sidebar images"></a></li>
+                <li><a href="#"><img src="{% static 'images/sidebar-img/7.jpg' %}" alt="sidebar images"></a></li>
+                <li><a href="#"><img src="{% static 'images/sidebar-img/8.jpg' %}" alt="sidebar images"></a></li>
+
+            </ul>
+            <div class="offset__widget">
+                <div class="offset__single">
+                    <h4 class="offset__title">Language</h4>
+                    <ul>
+                        <li><a href="#"> Engish </a></li>
+                        <li><a href="#"> French </a></li>
+                        <li><a href="#"> German </a></li>
+                    </ul>
+                </div>
+                <div class="offset__single">
+                    <h4 class="offset__title">Currencies</h4>
+                    <ul>
+                        <li><a href="#"> USD : Dollar </a></li>
+                        <li><a href="#"> EUR : Euro </a></li>
+                        <li><a href="#"> POU : Pound </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="offset__sosial__share">
+                <h4 class="offset__title">Follow Us On Social</h4>
+                <ul class="off__soaial__link">
+                    <li><a class="bg--twitter" href="#"  title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                    
+                    <li><a class="bg--instagram" href="#" title="Instagram"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                    <li><a class="bg--facebook" href="#" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                    <li><a class="bg--googleplus" href="#" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a></li>
+
+                    <li><a class="bg--google" href="#" title="Google"><i class="zmdi zmdi-google"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End Offset MEnu -->
+    <!-- Start Cart Panel -->
+    <div class="shopping__cart">
+        <div class="shopping__cart__inner">
+            <div class="offsetmenu__close__btn">
+                <a href="#"><i class="zmdi zmdi-close"></i></a>
+            </div>
+            <div class="shp__cart__wrap">
+                
+                {% if not cart.products.count %}
+                <div class="shp__single__product">
+          
+                    <div class="shp__pro__details" style="text-align: right;">
+                        <h2>Ваша корзина пуста</a></h2>
+                    
+
+                    </div>
+                    
+                </div>
+                {% else %} 
+                {% for item in cart.products.all %} 
+                <div class="shp__single__product">
+                    <div class="shp__pro__thumb">
+                        <a href="#">
+                            <img src="{{ item.product.image.url }}" alt="product images">
+                        </a>
+                    </div>
+                    <div class="shp__pro__details">
+                        <h2><a href="{% url 'product_detail' item.product.pk %}">{{ item.product.title }} тенге</a></h2>
+                        <span class="quantity">QTY: 1</span>
+                        <span class="shp__price">{{ item.product.price }} тенге</span>
+                    </div>
+                    <div class="remove__btn">
+                        <a href="{% url 'delete_from_cart_index' slug=item.product.slug %}" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+               
+          
+
+
+               
+            </div>
+          
+            {% if not cart.products.count %}
+            {% else %}
+            <ul class="shoping__total">
+                <li class="subtotal">Общая цена</li>
+              
+                <li class="total__price">{{ cart.final_price }} тенге</li>
+           
+            </ul>
+            {% endif %}
+            <ul class="shopping__btn">
+                <li><a href="{% url 'cart' %}">View Cart</a></li>
+                <li class="shp__checkout"><a href="{% url 'make_order' %}">Checkout</a></li>
+            </ul>
+       
+        </div>
+    </div>
+    <!-- End Cart Panel -->
+</div>
+        <!-- End Offset Wrapper -->
+        <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url({% static 'images/bg/2.jpg' %}) no-repeat scroll center center / cover ;">
+            <div class="ht__bradcaump__wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">Фильтрация/{{ data.0.category }}</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="{% url 'index' %}">Home</a>
+                                  <span class="brd-separetor">/</span>
+                                  <span class="breadcrumb-item active">Фильтрация/{{ data.0.category }}</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area --> 
+        <!-- Start Our Product Area -->
+        <section class="htc__product__area shop__page ptb--130 bg__white">
+            <div class="container">
+                <div class="htc__product__container">
+                    <!-- Start Product MEnu -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="filter__menu__container">
+                                <div class="product__menu">
+                                    <button data-filter="*"  class="is-checked">All</button>
+                                    <button data-filter=".cat--1">Найдено {{ object_list.count }} товаров</button>
+                                </div>
+                                <div class="filter__box">
+                                    <a class="filter__menu" href="#">filter</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Start Filter Menu -->
+                    <div class="filter__wrap">
+                        <div class="filter__cart">
+                            <div class="filter__cart__inner">
+                                <div class="filter__menu__close__btn">
+                                    <a href="#"><i class="zmdi zmdi-close"></i></a>
+                                </div>
+                                <div class="filter__content">
+                                    <!-- Start Single Content -->
+                                    <div class="fiter__content__inner">
+                                        <div class="single__filter">
+                                            <h2>Sort By</h2>
+                                            <ul class="filter__list">
+                                                <li><a href="#default">Default</a></li>
+                                                <li><a href="#accessories">Accessories</a></li>
+                                                <li><a href="#bags">Bags</a></li>
+                                                <li><a href="#chair">Chair</a></li>
+                                                <li><a href="#decoration">Decoration</a></li>
+                                                <li><a href="#fashion">Fashion</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="single__filter">
+                                            <h2>Size</h2>
+                                            <ul class="filter__list">
+                                                <li><a href="#xxl">XXL</a></li>
+                                                <li><a href="#xl">XL</a></li>
+                                                <li><a href="#x">X</a></li>
+                                                <li><a href="#l">L</a></li>
+                                                <li><a href="#m">M</a></li>
+                                                <li><a href="#s">S</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="single__filter">
+                                            <h2>Tags</h2>
+                                            <ul class="filter__list">
+                                                <li><a href="#">All</a></li>
+    
+                                            </ul>
+                                        </div>
+                                        <div class="single__filter">
+                                            <h2>Цена</h2>
+                                            <ul class="filter__list">
+                                                
+                                                <form action="{% url 'Filters' data.0.category.id %}" method="GET">
+                                                    <li><a>от</a></li>
+                                                   
+                                                    <td><input class='text-field__input' type="number" name="qty"  min="1" value="0">
+                                                        <br>
+                                                        <li><a>до</a></li>
+                                                        <input class='text-field__input' type="number" name="qty2" min="1" value="0">
+                                                        <div class="htc__login__btn mt--30">
+                                                        <input class="btn" type="submit" value="Ок" style="width: 50%; top:20px,20px" />
+                                                        </div></td>
+                                                  
+                                                    </form> 
+                                          
+                                            </ul>
+                                        </div>
+                                        <div class="single__filter">
+                                            <h2>Color</h2>
+                                            <ul class="filter__list sidebar__list">
+                                                <li class="black"><a href="#"><i class="zmdi zmdi-circle"></i>Black</a></li>
+                                                <li class="blue"><a href="#"><i class="zmdi zmdi-circle"></i>Blue</a></li>
+                                                <li class="brown"><a href="#"><i class="zmdi zmdi-circle"></i>Brown</a></li>
+                                                <li class="red"><a href="#"><i class="zmdi zmdi-circle"></i>Red</a></li>
+                                                <li class="orange"><a href="#"><i class="zmdi zmdi-circle"></i>Orange</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- End Single Content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Filter Menu -->
+                    <!-- End Product MEnu -->
+                    <div class="row">
+                        <div class="product__list another-product-style">
+                            <!-- Start Single Product -->
+      
+                            {% for product in object_list %}
+                 
+                     
+                    
+                            <div class="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
+                                <div class="product foo">
+                                    <div class="product__inner">
+                                        <div class="pro__thumb">
+                                            <a href="{% url 'product_detail' product.pk %}">
+                                                {% if product.image %}
+                                                                <div class="product_discount" >
+                                                                    {% if  product.discount != 0 %}
+                                                                    <div class="sale_discount">- {{ product.discount}}% {{ product.discount_end_date|date:"d.m.Y" }}</div>
+                                                                    {% endif %}
+                                                                    {% if product.new %}
+                                                                    <div class="sale_new">новинка</div>
+                                                                    {% endif %}
+                                                                    <img src="{{ product.image.url }}"  alt="product images">
+                                                                </div> 
+                                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="product__hover__info">
+                                            <ul class="product__action">
+                                                {% if request.user.is_authenticated %}
+                                                                <li><a href="{% url 'product_view' product.pk %}" data-toggle="modal"  data-target="#productModal{{ product.id }}" title="Quick View" class="quick-view modal-view detail-link" ><span class="ti-plus"></span></a></li>
+                                                                <li><a title="Add TO Cart" href="{% url 'add_to_cart' slug=product.slug %}"><span class="ti-shopping-cart"></span></a></li>
+                                                                <li><a title="Wishlist" href="{% url 'wishlist' %}"><span class="ti-heart"></span></a></li>
+
+                                                                {% else %}
+                                                                <li><a data-toggle="Вы не авторизованы" data-target="{% url 'login-register01' %}" title="Вы не авторизованы" class="quick-view modal-view detail-link" href="{% url 'login-register01' %}"><span class="ti-plus"></span></a></li>
+                                                                <li><a title="Вы не авторизованы" href="{% url 'login-register01' %}"><span class="ti-shopping-cart"></span></a></li>
+                                                                <li><a title="Вы не авторизованы" href="{% url 'login-register01' %}"><span class="ti-heart"></span></a></li>
+                                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product__details">
+                                        <h2><a href="{% url 'product_view' product.pk %}">{{ product.title }}</a></h2>
+                                        <h2><a style="color:red;">{{ product.count_product }} шт</a></h2>
+                                                        {% if product.count_product == 0  %}
+                                                        <h2><a style="color:red;">нет в наличий</a></h2>
+                                                        {% endif %}
+                                        <ul class="product__price">
+                                            <li class="old__price">{{ product.history_price }} тенге</li>
+                                            <li class="new__price">{{ product.price }} тенге</li>
+                                            {% if request.user.is_authenticated %}
+
+                                                            
+                                            <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
+                                      {{ product.value }}
+                                               </div>
+                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                {% csrf_token %}
+                                               
+                                                <input type="hidden" name="next" value="{{ request.path }}">
+
+                                                <button class="button"  type="submit" >
+                                                <div class="hand">
+                                                <div class="thumb"></div>
+                                                </div>
+                                                <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
+                                               
+                                            </button>
+                                            </form>
+                                            <script src="{% static 'js/vendor/jquery-1.12.0.min.js' %}"></script>
+                                            <script>$(document).ready(function(){
+                                                
+                                                $('.like-form{{ product.id }}').submit(function(e){
+                                                e.preventDefault();
+                                          
+                                                const post_id = $(this).attr('id');
+                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
+                                                const trim = $.trim(Like_Unlike_Text)
+                                                const likes = $(`#like${post_id}`).text();
+                                                const post_like=$(`.likes${post_id}`).text()
+                                                const trimCount = parseInt(likes);
+                                                
+                                                $.ajax({
+                                                type:"POST",
+                                                url:`{% url 'like' product.pk %}`,
+                                                    data:{
+                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                                                        'post_id':post_id,
+                                                        'post_like':post_like,
+                                                    },
+                                                    success: function(response){
+                                                        
+                                                        if(trim === 'Unlike'){
+                                                            $(`.class_str${post_id}`).text('Like')
+                                                          
+                                                            res=trimCount+1  
+                                                        }
+                                                        if (trim === 'Like'){
+                                                            $(`.class_str${post_id}`).text('Unlike')
+                                                            res=trimCount-1 
+                                                        }
+                                                        if (res < 0){
+                                                           
+                                                            res=trimCount+1 
+                                                        }
+                                                        $(`.likes${post_id}`).text(res)
+                                                    },
+                                                    error: function(response) {
+                                                                console.log('error', response)
+                                                     }
+                                                });
+                                                
+                                                        });
+                                                    });
+                                                    </script>
+
+                                            {% else %}
+                                           
+                                            {% endif %}
+                                        
+
+                                        </ul>
+
+                                        
+                                    </div>
+                               
+                                  
+                                </div>
+                               
+                            </div>
+             
+                            {% endfor %}
+
+
+
+                        </div>
+                    </div>
+                    <!-- Start Load More BTn -->
+                    <div class="row mt--60">
+                        <div class="col-md-12">
+                            <div class="htc__loadmore__btn">
+                                <a  id="loadMore">load more</a>
+                            </div>
+                            <p class="totop htc__loadmore__btn"> 
+                                <a  id="#top">Back to top</a> 
+                            </p>
+
+                        </div>
+                    </div>
+                    <!-- End Load More BTn -->
+                </div>
+            </div>
+        </section>
+        <script src="{% static 'js/load_more.js' %}" ></script>
+        {% endblock content  %}

@@ -1,0 +1,52 @@
+/* Всплывающий контейнер */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  /* Фактическое всплывающее окно (появляется сверху) */
+  .popup .popuptext {
+    visibility: hidden;
+    width:650px;
+    background-color: rgb(65, 134, 73);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 0%;
+    margin-left:-300px;
+  }
+  
+  /* Всплывающее окно со стрелками */
+  .popup .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(64, 119, 61) transparent transparent transparent;
+  }
+  
+  /* Переключите этот класс при нажатии на всплывающий контейнер (скрыть и показать всплывающее окно) */
+  .popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+  }
+  
+  /* Добавить анимацию (исчезает во всплывающем окне) */
+  @-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+  }

@@ -1,0 +1,538 @@
+
+{% extends 'extends.html' %}
+{% load static %}
+{% block content %}
+{% load comments_tree %}
+
+        
+        <div class="body__overlay"></div>
+        <!-- Start Offset Wrapper -->
+        <div class="offset__wrapper">
+            <!-- Start Search Popap -->
+            <div class="search__area">
+                <div class="container" >
+                    <div class="row" >
+                        <div class="col-md-12" >
+                            <div class="search__inner">
+                                <form action="#" method="get">
+                                    <input placeholder="Search here... " type="text">
+                                    <button type="submit"></button>
+                                </form>
+                                <div class="search__close__btn">
+                                    <span class="search__close__btn_icon"><i class="zmdi zmdi-close"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Search Popap -->
+            <!-- Start Offset MEnu -->
+            <div class="offsetmenu">
+                <div class="offsetmenu__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="off__contact">
+                        <div class="logo">
+                            <a href="{% url 'index' %}">
+                                <img src="{% static 'images/logo/logo.png' %}" alt="logo">
+                            </a>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetu adipisicing elit sed do eiusmod tempor incididunt ut labore.</p>
+                    </div>
+          
+    
+                    <ul class="sidebar__thumd">
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/1.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/2.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/3.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/4.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/5.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/6.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/7.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/8.jpg' %}" alt="sidebar images"></a></li>
+                    </ul>
+                    <div class="offset__widget">
+                        <div class="offset__single">
+                            <h4 class="offset__title">Language</h4>
+                            <ul>
+                                <li><a href="#"> Engish </a></li>
+                                <li><a href="#"> French </a></li>
+                                <li><a href="#"> German </a></li>
+                            </ul>
+                        </div>
+                        <div class="offset__single">
+                            <h4 class="offset__title">Currencies</h4>
+                            <ul>
+                                <li><a href="#"> USD : Dollar </a></li>
+                                <li><a href="#"> EUR : Euro </a></li>
+                                <li><a href="#"> POU : Pound </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="offset__sosial__share">
+                        <h4 class="offset__title">Follow Us On Social</h4>
+                        <ul class="off__soaial__link">
+                            <li><a class="bg--twitter" href="#"  title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                            
+                            <li><a class="bg--instagram" href="#" title="Instagram"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                            <li><a class="bg--facebook" href="#" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                            <li><a class="bg--googleplus" href="#" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a></li>
+
+                            <li><a class="bg--google" href="#" title="Google"><i class="zmdi zmdi-google"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Offset MEnu -->
+            <!-- Start Cart Panel -->
+            <div class="shopping__cart">
+                <div class="shopping__cart__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="shp__cart__wrap">
+                        
+                        {% if not cart.products.count %}
+                        <div class="shp__single__product">
+                  
+                            <div class="shp__pro__details" style="text-align: right;">
+                                <h2>Ваша корзина пуста</a></h2>
+                            
+
+                            </div>
+                            
+                        </div>
+                        {% else %} 
+                        {% for item in cart.products.all %} 
+                        <div class="shp__single__product">
+                            <div class="shp__pro__thumb">
+                                <a href="#">
+                                    <img src="{{ item.product.image.url }}" alt="product images">
+                                </a>
+                            </div>
+                            <div class="shp__pro__details">
+                                <h2><a href="#">{{ item.product.title }} тенге</a></h2>
+                                <span class="quantity">QTY: 1</span>
+                                <span class="shp__price">{{ item.product.price }} тенге</span>
+                            </div>
+                            <div class="remove__btn">
+                                <a href="{% url 'delete_from_cart_index' slug=item.product.slug %}" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                       
+                  
+
+
+                       
+                    </div>
+                  
+                    {% if not cart.products.count %}
+                    {% else %}
+                    <ul class="shoping__total">
+                        <li class="subtotal">Общая цена</li>
+                      
+                        <li class="total__price">{{ cart.final_price }} тенге</li>
+                   
+                    </ul>
+                    {% endif %}
+                    <ul class="shopping__btn">
+                        <li><a href="{% url 'cart' %}">View Cart</a></li>
+                        <li class="shp__checkout"><a href="">Checkout</a></li>
+                    </ul>
+               
+                </div>
+            </div>
+        <!-- End Offset Wrapper -->
+        <!-- Start Bradcaump area -->
+        {% for products in products %}
+        {% if products.id == pk  %}
+        <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url({% static 'images/bg/2.jpg' %}) no-repeat scroll center center / cover ;">
+            <div class="ht__bradcaump__wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">{{ products.title }}</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="{% url 'index' %}">Home</a>
+                                  <span class="brd-separetor">/</span>
+                                  <span class="breadcrumb-item active">{{ products.title }}</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area -->
+
+        <!-- Start Product Details -->
+        <section class="htc__product__details pt--100 pb--100 bg__white">
+            <div class="container">
+                <div class="scroll-active">
+                    <div class="row">
+                        <div class="col-md-7 col-lg-7 col-sm-5 col-xs-12">
+                            <div class="product__details__container product-details-5">
+                                <div class="scroll-single-product mb--30">
+                                    <img src="{{ products.image.url }}" alt="full-image">
+                                    {% if products.images_2 %}
+                                    <img src="{{ products.images_2.url }}" alt="product images">
+                                    {% endif %}
+                                    {% if products.images_3 %}
+                                    <img src="{{ products.images_3.url }}" alt="product images">
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="sidebar-active col-md-5 col-lg-5 col-sm-7 col-xs-12 xmt-30">
+                            <div class="htc__product__details__inner ">
+                                <div class="pro__detl__title">
+                                   
+                                    <h2>{{ products.title }}</h2>
+                                    
+                                </div>
+                                <div class="pro__dtl__rating">
+                                    <ul class="pro__rating">
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                        <li><span class="ti-star"></span></li>
+                                    </ul>
+                                    <span class="rat__qun">(Based on 0 Ratings)</span>
+                                </div>
+                                <div class="pro__details">
+                                    <p>{{ products.description|safe }}</p>
+                                </div>
+                                <ul class="pro__dtl__prize">
+                                    <li class="old__prize">{{ products.history_price }}тг</li>
+                                    <li>Цена: {{ products.price }}тг</li>
+                                </ul>
+                                <div class="pro__dtl__color">
+                                    <h2 class="title__5">Choose Colour</h2>
+                                    <ul class="pro__choose__color">
+                                        <li class="red"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                                        <li class="blue"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                                        <li class="perpal"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                                        <li class="yellow"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="pro__dtl__size">
+                                    <h2 class="title__5">Size</h2>
+                                    <ul class="pro__choose__size">
+                                        <li><a href="#">xl</a></li>
+                                        <li><a href="#">m</a></li>
+                                        <li><a href="#">ml</a></li>
+                                        <li><a href="#">lm</a></li>
+                                        <li><a href="#">xxl</a></li>
+                                    </ul>
+                                </div>
+                                <div class="product-action-wrap">
+                        
+                                    <div class="product-quantity">
+       
+                                       
+                                    </div>
+                                </div>
+                                <ul class="pro__dtl__btn">
+                                    {% if request.user.is_authenticated %}
+                                    <li class="buy__now__btn"><a href="{% url 'add_to_cart' slug=products.slug %}">Купить сейчас</a></li>
+                                    {% else %}
+                                    <li class="buy__now__btn"><a href="{% url 'login-register01' %}">Купить сейчас</a></li>
+                                    {% endif %}
+
+                                    <li><a href="#"><span class="ti-heart"></span></a></li>
+                                    <li><a href="#"><span class="ti-email"></span></a></li>
+                                </ul>
+                                <div class="pro__social__share">
+                                    <h2>Share :</h2>
+                                    <ul class="pro__soaial__link">
+                                        <li><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                                        <li><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+                                        <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+                                        <li><a href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Product Details -->
+        {% endif %}
+        {% endfor %}
+
+        <!-- Start Product tab -->
+        <section class="htc__product__details__tab bg__white pb--120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <ul class="product__deatils__tab mb--60" role="tablist">
+                            <li role="presentation" class="active">
+                                <a href="#description" role="tab" data-toggle="tab">Description</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#sheet" role="tab" data-toggle="tab">Data sheet</a>
+                            </li>
+                            {% for products in products %}
+                            {% if products.id == pk  %}
+                            <li role="presentation" href="{% url 'base_product_comment' pk %}">
+                                <a href="#{{ pk }}" role="tab" data-toggle="tab">Reviews</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product__details__tab__content">
+                            <!-- Start Single Content -->
+                            <div role="tabpanel" id="description" class="product__tab__content fade in active">
+                                <div class="product__description__wrap">
+                                    <div class="product__desc">
+                                        <h2 class="title__6">Details</h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis noexercit ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id.</p>
+                                    </div>
+                                    <div class="pro__feature">
+                                        <h2 class="title__6">Features</h2>
+                                        <ul class="feature__list">
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Duis aute irure dolor in reprehenderit in voluptate velit esse</a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Irure dolor in reprehenderit in voluptate velit esse</a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Sed do eiusmod tempor incididunt ut labore et </a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Nisi ut aliquip ex ea commodo consequat.</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Content -->
+                            <!-- Start Single Content -->
+                            <div role="tabpanel" id="sheet" class="product__tab__content fade">
+                                <div class="pro__feature">
+                                        <h2 class="title__6">Data sheet</h2>
+                                        <ul class="feature__list">
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Duis aute irure dolor in reprehenderit in voluptate velit esse</a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Irure dolor in reprehenderit in voluptate velit esse</a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Irure dolor in reprehenderit in voluptate velit esse</a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Sed do eiusmod tempor incididunt ut labore et </a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Sed do eiusmod tempor incididunt ut labore et </a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Nisi ut aliquip ex ea commodo consequat.</a></li>
+                                            <li><a href="#"><i class="zmdi zmdi-play-circle"></i>Nisi ut aliquip ex ea commodo consequat.</a></li>
+                                        </ul>
+                                    </div>
+                            </div>
+                            <!-- End Single Content -->
+                            <!-- Start Single Content -->
+                            {% for products in products %}
+                            {% if products.id == pk  %}
+                            <div role="tabpanel" id="{{ pk }}" class="product__tab__content fade">
+                                {% endif %}
+                                {% endfor %}
+                                <div class="review__address__inner">
+                   
+                                    <!-- Start Single Review -->
+                                    {% if comments_count == 0 %}
+                                    <div class="title__6"style="text-align:center;"><h3 class="bradcaump-title">Комментариев нет</h3></div>
+                                    
+                                    {% else %}
+                                    {% if comments_count == 1 %}
+                                    <div style="width: 100%;margin-left: 20%;padding: 2%;">
+                                        <h6 style="color: gray;">{{ comments_count }} комментарий</h6>
+                                        </div>
+                                        {% else %}
+                                        <div style="width: 100%;margin-left: 20%;padding: 2%;">
+                                            <h6 style="color: gray;">{{ comments_count }} комментариев</h6>
+                                            </div>
+                                    {% endif %}
+                                    {% endif %}
+                                    <div class="row">
+                                        <div class="col-md-3">
+
+                                        </div>
+                                       
+                                        
+                        
+                                        <div class="col-md-6">
+                                            
+                                            
+                                            {{ comments|comments_filter }}
+                                            
+                         
+                                        </div>
+                                    
+                                                  
+                                        </div>
+                                        <div class="col-md-3">
+                                            
+                                        </div>
+                                    </div>
+                                    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+                                    <script>
+                                        // comments
+
+
+                                    $(document).ready(function(){
+                                    
+                                    $(".reply").on('click', function(){
+                                        console.log('Hello')
+                                        var commentId = $(this).attr('data-id')
+                                        const trim=$(`.set${commentId}`).text()
+                                        if(trim=='Ответить'){
+                                            $(`.set${commentId}`).text('Отмена')
+                                        }
+                                        if(trim=='Отмена'){
+                                            $(`.set${commentId}`).text('Ответить')
+                                        }
+                                        $(`#form-${commentId}`).fadeToggle();
+                                    })
+                                    $(".estamps-none").on('click', function(e){
+                                        e.preventDefault()
+
+                                        var parentId = $(this).attr('data-submit-reply')
+                                        console.log(parentId)
+                                        var id = $(this).attr('data-id')
+                                        var text = $(`#form-${id}`).find('textarea[name="comment-text"]').val();
+                                        function getCookie(name) {
+                                        let cookieValue = null;
+                                        if (document.cookie && document.cookie !== '') {
+                                            const cookies = document.cookie.split(';');
+                                            for (let i = 0; i < cookies.length; i++) {
+                                                const cookie = cookies[i].trim();
+                                                // Does this cookie string begin with the name we want?
+                                                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                    break;
+                                                    }
+                                                }
+                                            }
+                                            return cookieValue;
+                                        }
+                                        const csrftoken = getCookie('csrftoken');
+
+
+
+                                        data = {
+                                            user: "{{ request.user.username }}",
+                                            parentId: parentId,
+                                            text: text,
+                                            id: id,
+                                            csrfmiddlewaretoken: csrftoken
+                                        }
+                                        if (!"{{ request.user.username }}"){
+                                            window.location.replace("{% url 'login-register01' %}")
+                                        }
+                                        $.ajax({
+                                            method: "POST",
+                                            data: data,
+                                            url: "{% url 'comment_child_create' pk %}",
+                                            success: function(data){
+                                            
+                                                window.location.replace('/')
+                                             }
+                                            })
+                                        })
+                                    })
+                                    
+ 
+                                    </script>
+                                    
+
+                                    
+                                    <!-- End Single Review -->
+                                    <!-- Start Single Review -->
+                                   <div class="pro__review ans">
+                                    
+                                    </div>
+                                    <!-- End Single Review -->
+                                </div>
+                                <!-- Start RAting Area -->
+                                {% if request.user.is_authenticated %}
+                                <div class="rating__wrap">
+                                    <h2 class="rating-title">Write  A review</h2>
+                                    <h4 class="rating-title-2">Your Rating</h4>
+                                    <div class="rating__list">
+                                        <!-- Start Single List -->
+                                        <ul class="rating">
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                        </ul>
+                                        <!-- End Single List -->
+                                        <!-- Start Single List -->
+                                        <ul class="rating">
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                        </ul>
+                                        <!-- End Single List -->
+                                        <!-- Start Single List -->
+                                        <ul class="rating">
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                        </ul>
+                                        <!-- End Single List -->
+                                        <!-- Start Single List -->
+                                        <ul class="rating">
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                        </ul>
+                                        <!-- End Single List -->
+                                        <!-- Start Single List -->
+                                        <ul class="rating">
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                            <li><i class="zmdi zmdi-star-half"></i></li>
+                                        </ul>
+                                        <!-- End Single List -->
+                                    </div>
+                                </div>
+                                <!-- End RAting Area -->
+                              
+                                <div class="review__box">
+                                    {% for products in products %}
+                                     {% if products.id == pk  %}
+                                  
+                                    <form action="{% url 'create_comment' pk %}"  id="review-form"  method="POST">
+                                        <div class="single-review-form">
+                                            <div class="review-box message">
+                                                {% csrf_token %}
+                                                {{ comment_form }}
+                                            </div>
+                                        </div>
+                                        <div class="review-btn">
+                                            <button class="btn btn-primary submit-reply" type="submit">Оставить отзыв</button>
+                                        </div>
+
+                                     
+                                    </form> 
+                                    {% endif %} 
+                                   
+                                     
+                                    
+                                    {% endfor %}  
+                                                          
+                                </div>
+                                {% endif %} 
+                            </div>
+                            <!-- End Single Content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+      
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+        {% endblock content  %}

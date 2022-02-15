@@ -1,0 +1,349 @@
+{% extends 'extends.html' %}
+{% load static %}
+{% block content %}
+        
+        <div class="body__overlay"></div>
+        <!-- Start Offset Wrapper -->
+        <div class="offset__wrapper">
+            <!-- Start Search Popap -->
+            <div class="search__area">
+                <div class="container" >
+                    <div class="row" >
+                        <div class="col-md-12" >
+                            <div class="search__inner">
+                                <form action="#" method="get">
+                                    <input placeholder="Search here... " type="text">
+                                    <button type="submit"></button>
+                                </form>
+              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Search Popap -->
+            <!-- Start Offset MEnu -->
+            <div class="offsetmenu">
+                <div class="offsetmenu__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="off__contact">
+                        <div class="logo">
+                            <a href="{% url 'index' %}">
+                                <img src="{% static 'images/logo/logo.png' %}" alt="logo">
+                            </a>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetu adipisicing elit sed do eiusmod tempor incididunt ut labore.</p>
+                    </div>
+                    <ul class="sidebar__thumd">
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/1.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/2.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/3.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/4.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/5.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/6.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/7.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/8.jpg' %}" alt="sidebar images"></a></li>
+                    </ul>
+                    <div class="offset__widget">
+                        <div class="offset__single">
+                            <h4 class="offset__title">Language</h4>
+                            <ul>
+                                <li><a href="#"> Engish </a></li>
+                                <li><a href="#"> French </a></li>
+                                <li><a href="#"> German </a></li>
+                            </ul>
+                        </div>
+                        <div class="offset__single">
+                            <h4 class="offset__title">Currencies</h4>
+                            <ul>
+                                <li><a href="#"> USD : Dollar </a></li>
+                                <li><a href="#"> EUR : Euro </a></li>
+                                <li><a href="#"> POU : Pound </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="offset__sosial__share">
+                        <h4 class="offset__title">Follow Us On Social</h4>
+                        <ul class="off__soaial__link">
+                            <li><a class="bg--twitter" href="#"  title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                            
+                            <li><a class="bg--instagram" href="#" title="Instagram"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                            <li><a class="bg--facebook" href="#" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                            <li><a class="bg--googleplus" href="#" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a></li>
+
+                            <li><a class="bg--google" href="#" title="Google"><i class="zmdi zmdi-google"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Offset MEnu -->
+            <!-- Start Cart Panel -->
+            <div class="shopping__cart">
+                <div class="shopping__cart__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="shp__cart__wrap">
+                 
+                        {% if not cart.products.count %}
+                        <div class="shp__single__product">
+                  
+                            <div class="shp__pro__details" style="text-align: right;">
+                                <h2>Ваша корзина пуста</a></h2>
+                            
+
+                            </div>
+                            
+                        </div>
+                        {% else %} 
+                        {% for item in cart.products.all %} 
+                        <div class="shp__single__product">
+                            <div class="shp__pro__thumb">
+                                <a href="#">
+                                    <img src="{{ item.product.image.url }}" alt="product images">
+                                </a>
+                            </div>
+                            <div class="shp__pro__details">
+                                <h2><a href="">{{ item.product.title }} тенге</a></h2>
+                                <span class="quantity">QTY: 1</span>
+                                <span class="shp__price">{{ item.product.price }} тенге</span>
+                            </div>
+                            <div class="remove__btn">
+                                <a href="{% url 'delete_from_cart' slug=item.product.slug %}" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                       
+                  
+
+
+                       
+                    </div>
+                  
+                    {% if not cart.products.count %}
+                    {% else %}
+                    <ul class="shoping__total">
+                        <li class="subtotal">Общая цена</li>
+                      
+                        <li class="total__price">{{ cart.final_price }} тенге</li>
+                   
+                    </ul>
+                    {% endif %}
+                    <ul class="shopping__btn">
+                        <li><a href="{% url 'cart' %}">View Cart</a></li>
+                        <li class="shp__checkout"><a href="{% url 'make_order' %}">Checkout</a></li>
+                    </ul>
+               
+                   
+                   
+                </div>
+            </div>
+            <!-- End Cart Panel -->
+        </div>
+        <!-- End Offset Wrapper -->
+        <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url({% static 'images/bg/2.jpg' %}) no-repeat scroll center center / cover ;">
+            <div class="ht__bradcaump__wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">Cart</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="{% url 'index' %}">Home</a>
+                                  <span class="brd-separetor">/</span>
+                                  <span class="breadcrumb-item active">Cart</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url({% static 'images/bg/2.jpg' %}) no-repeat scroll center center / cover ;">
+   
+            {% if messages %}
+            {% for message in messages %}
+            <div class="ht__bradcaump__wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bradcaump__inner text-center">
+                                <nav class="bradcaump-inner">
+                               
+                                <div class="popup" onclick="myFunction()">
+                                    <span class="popuptext" id="myPopup">{{ message }}<span>
+                                  </div>
+             
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if not cart.products.count %}
+        <div class="ht__bradcaump__wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="bradcaump__inner text-center">
+                            <nav class="bradcaump-inner">
+                                <div class="popup" onclick="myFunction()">
+                                    <span class="popuptext" id="myPopup">Ваша корзина пуста<span>
+                                  </div>
+  
+                           
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+       
+      
+        <!-- End Bradcaump area -->
+        {% else %} 
+    
+        <!-- cart-main-area start -->
+        <div class="cart-main-area ptb--120 bg__white">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                  
+                            
+                                 
+                            <div class="table-content table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="product-thumbnail">ИЗОБРАЖЕНИЕ</th>
+                                            <th class="product-name">ПРОДУКТ</th>
+                                            <th class="product-price">ЦЕНА</th>
+                                            <th class="product-quantity" style="width: 20%;">КОЛИЧЕСТВО</th>
+                                            <th class="product-subtotal">ОБЩАЯ ЦЕНА</th>
+                                            <th class="product-remove">УДАЛИТЬ</th>
+                                            
+                                            
+                                        </tr>
+                                    </thead>
+                                       
+                                    <tbody>
+                                        {% if messages %}
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                            <div class=" alert alert-success">
+                                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color: black;">{{ message|safe }}</li>
+                                            </div>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %} 
+                                      
+                                        {% for item in cart.products.all %} 
+                                        <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="{{ item.product.image.url }}" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">{{ item.product.title }}</a></td>
+                                            <td class="product-price"><span class="amount">{{ item.product.price }} тенге </span></td>
+                                       
+                                            <form action="{% url 'change_qty' slug=item.product.slug %}" method="POST">
+                                            <td><input type="number" name="qty"  min="1" value="{{ item.qty }}"> 
+                                                {% csrf_token %}
+                                                <input type="submit" value="Изменить" style="width: 50%; top:20px,20px" /></td>
+                                          
+                                            </form> 
+                                            <td class="product-subtotal">{{ item.final_price }} тенге</td>
+                                            <td class="product-remove"><a href="{% url 'delete_from_cart' slug=item.product.slug %}">X</a></td>
+                                            
+
+                                        </tr>
+                                    
+                                         {% endfor %}
+                                     
+                                        
+                                        <!-- <tr>
+                                            <td class="product-thumbnail"><a href="#"><img src="{% static 'images/product/3.png' %}" alt="product img" /></a></td>
+                                            <td class="product-name"><a href="#">Vestibulum dictum magna</a></td>
+                                            <td class="product-price"><span class="amount">£50.00</span></td>
+                                            <td class="product-quantity"><input type="number" value="1" /></td>
+                                            <td class="product-subtotal">£50.00</td>
+                                            <td class="product-remove"><a href="#">X</a></td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                            </div>
+                         
+                            <div class="row">
+                                <div class="col-md-8 col-sm-7 col-xs-12">
+                                    <div class="buttons-cart">
+                                    
+                                      
+                                        <a href="{% url 'index' %}">Продолжать покупать</a>
+                                    </div>
+                                    <div class="coupon">
+                                        <h3>КУПОН</h3>
+                                        <p>Введите код купона, если он у вас есть.</p>
+                                        <input type="text" placeholder="Код купона" />
+                                        <input type="submit" value="Применить купон" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-5 col-xs-12">
+                                    <div class="cart_totals">
+                                        <h2>ИТОГИ КОРЗИНЫ</h2>
+                                        <table>
+                                            <tbody>
+                                                <tr class="cart-subtotal">
+                                                    <th>ПРОМЕЖУТОЧНЫЙ</th>
+                                                    <td><span class="amount">£215.00</span></td>
+                                                </tr>
+                                                <tr class="shipping">
+                                                    <th>ИТОГ</th>
+                                                    <td>
+                                                        <ul id="shipping_method">
+                                                            <li>
+                                                                <input type="radio" /> 
+                                                                <label>
+                                                                    Быстрая доставка: <span class="amount">4500 тенге</span>
+                                                                </label>
+                                                            </li>
+                                                            <li>
+                                                                <input type="radio" /> 
+                                                                <label>
+                                                                    Бесплатная доставка
+                                                                </label>
+                                                            </li>
+                                                            <li></li>
+                                                        </ul>
+                                                        <p><a class="shipping-calculator-button" href="#">Рассчитать стоимость доставки</a></p>
+                                                    </td>
+                                                </tr>
+                                                <tr class="order-total">
+                                                    <th>ОБЩАЯ ЦЕНА</th>
+                                                    <td>
+                                                        <strong><span class="amount">{{ cart.final_price }}</span></strong>
+                                                    </td>
+                                                </tr>                                           
+                                            </tbody>
+                                        </table>
+                                        <div class="wc-proceed-to-checkout">
+                                            <a href="{% url 'make_order' %}">Перейти к оформлению заказа</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+     
+    {% endblock content  %}

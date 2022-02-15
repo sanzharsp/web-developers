@@ -1,0 +1,260 @@
+{% extends 'extends.html' %}
+{% load static %}
+
+{% block content %}
+<!--<audio autoplay="autoplay" src="{% static 'music/the_witcher_3_wild_hunt_01 The Trail.mp3' %}"  id="bgAudio">
+</audio>-->
+
+        <!-- End Header Style -->
+        
+        <div class="body__overlay"></div>
+        <!-- Start Offset Wrapper -->
+        <div class="offset__wrapper">
+            <!-- Start Search Popap -->
+            <div class="search__area">
+                <div class="container" >
+                    <div class="row" >
+                        <div class="col-md-12" >
+                            <div class="search__inner">
+                                <form action="#" method="get">
+                                    <input placeholder="Search here... " type="text">
+                                    <button type="submit"></button>
+                                </form>
+                                <div class="search__close__btn">
+                                    <span class="search__close__btn_icon"><i class="zmdi zmdi-close"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Search Popap -->
+            <!-- Start Offset MEnu -->
+            <div class="offsetmenu">
+                <div class="offsetmenu__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="off__contact">
+                        <div class="logo">
+                            <a href="{% url 'index' %}">
+                                <img src="{% static 'images/logo/logo.png' %}" alt="logo">
+                            </a>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetu adipisicing elit sed do eiusmod tempor incididunt ut labore.</p>
+                    </div>
+                    <ul class="sidebar__thumd">
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/1.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/2.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/3.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/4.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/5.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/6.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/7.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/8.jpg' %}" alt="sidebar images"></a></li>
+                    </ul>
+                    <div class="offset__widget">
+                        <div class="offset__single">
+                            <h4 class="offset__title">Language</h4>
+                            <ul>
+                                <li><a href="#"> Engish </a></li>
+                                <li><a href="#"> French </a></li>
+                                <li><a href="#"> German </a></li>
+                            </ul>
+                        </div>
+                        <div class="offset__single">
+                            <h4 class="offset__title">Currencies</h4>
+                            <ul>
+                                <li><a href="#"> USD : Dollar </a></li>
+                                <li><a href="#"> EUR : Euro </a></li>
+                                <li><a href="#"> POU : Pound </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="offset__sosial__share">
+                        <h4 class="offset__title">Follow Us On Social</h4>
+                        <ul class="off__soaial__link">
+                            <li><a class="bg--twitter" href="#"  title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                            
+                            <li><a class="bg--instagram" href="#" title="Instagram"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                            <li><a class="bg--facebook" href="#" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                            <li><a class="bg--googleplus" href="#" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a></li>
+
+                            <li><a class="bg--google" href="#" title="Google"><i class="zmdi zmdi-google"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Offset MEnu -->
+            <!-- Start Cart Panel -->
+            <div class="shopping__cart">
+                <div class="shopping__cart__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="shp__cart__wrap">
+                        
+                        {% if not cart.products.count %}
+                        <div class="shp__single__product">
+                  
+                            <div class="shp__pro__details" style="text-align: right;">
+                                <h2>Ваша корзина пуста</a></h2>
+                            
+
+                            </div>
+                            
+                        </div>
+                        {% else %} 
+                        {% for item in cart.products.all %} 
+                        <div class="shp__single__product">
+                            <div class="shp__pro__thumb">
+                                <a href="#">
+                                    <img src="{{ item.product.image.url }}" alt="product images">
+                                </a>
+                            </div>
+                            <div class="shp__pro__details">
+                                <h2><a href="{% url 'product_detail' item.product.pk %}">{{ item.product.title }} тенге</a></h2>
+                                <span class="quantity">QTY: 1</span>
+                                <span class="shp__price">{{ item.product.price }} тенге</span>
+                            </div>
+                            <div class="remove__btn">
+                                <a href="{% url 'delete_from_cart_index' slug=item.product.slug %}" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                       
+                  
+
+
+                       
+                    </div>
+                  
+                    {% if not cart.products.count %}
+                    {% else %}
+                    <ul class="shoping__total">
+                        <li class="subtotal">Общая цена</li>
+                      
+                        <li class="total__price">{{ cart.final_price }} тенге</li>
+                   
+                    </ul>
+                    {% endif %}
+                    <ul class="shopping__btn">
+                        <li><a href="{% url 'cart' %}">View Cart</a></li>
+                        <li class="shp__checkout"><a href="{% url 'make_order' %}">Checkout</a></li>
+                    </ul>
+               
+                </div>
+            </div>
+            <!-- End Cart Panel -->
+        </div>
+        <!-- End Offset Wrapper -->
+        <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url({% static 'images/bg/2.jpg' %}) no-repeat scroll center center / cover ;">
+            <div class="ht__bradcaump__wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">Создание Категорий</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="{% url 'index' %}"> Home</a>
+                                  <span class="brd-separetor">/</span>
+                                  <span class="breadcrumb-item active">Создание Категорий</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area -->
+        <!-- Start Login Register Area -->
+         <!-- End Bradcaump area -->
+        <!-- Start Login Register Area -->
+        <div class="categories-menu mrg-xs">
+            <div class="category-heading">
+               <h3> {{ category.count }} Категорий </h3>
+            </div>
+            <div class="category-menu-list">
+                
+
+             
+                <ul>
+                    {% for categories in category %}
+                    <li><a href="{% url 'category_set' categories.slug %}"><img alt="" src="{% static 'images/icons/thum3.png' %}">{{ categories }}<i class="zmdi zmdi-chevron-right"></i></a>
+                    </li> 
+                    {% endfor %}
+                   
+                </ul>
+                
+            </div>
+        </div>
+        <div class="htc__login__register bg__white ptb--130">
+            <div class="container">
+
+                <!-- Start Login Register Content -->
+                <div class="row">     
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="htc__login__register__wrap">
+                            <!-- Start Single Content -->
+                            <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade in active">
+                                <style> 
+                                       /* text-field */
+
+                                    </style>
+                                                    
+                                
+                                   <ul class="login__register__menu" role="tablist">
+                                    <li role="presentation" class="login"><a >Создать категорию</a></li>
+                                </ul>
+                                    <form method="POST" data-ajax="false" enctype="multipart/form-data">
+                                        {% for message in messages %}
+                                        <li class="alert alert-success" style="color: black;">{{ message }}</li>
+                                        {% endfor %}
+                                        {% csrf_token %}
+                                        {{ form }}
+                                    
+                                       
+                       
+                               
+                                <div class="htc__login__btn mt--30">
+                                    <button ><a>OK</a></button>
+                                    
+                                </div>
+                                
+                                </form>
+                               
+                                
+                           
+                                <div class="htc__social__connect">
+                                    <h2>Or Login With</h2>
+                                    <ul class="htc__soaial__list">
+                                        <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+
+                                        <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                                        <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                                        <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+            
+
+
+
+
+                            <!-- End Single Content -->
+                        </div>
+                    </div>
+                </div>
+                <!-- End Login Register Content -->
+            </div>
+        </div>
+
+{% endblock content %}
+
+

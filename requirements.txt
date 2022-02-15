@@ -1,0 +1,5 @@
+django-crispy-forms==1.13.0
+django-extensions==3.1.5
+django-modeladmin-reorder==0.3.1
+pytz==2021.3
+requests==2.26.0

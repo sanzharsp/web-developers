@@ -61,8 +61,8 @@ INSTALLED_APPS = [
     
 ]
 """
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1004246680820-9t7b7inhujb2v403fllr7dd231q2nk4e.apps.googleusercontent.com' # Google Consumer Key
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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' # Google Consumer Secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '*****************************************************' # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '**********************************************' # Google Consumer Secret
 """
 
 MIDDLEWARE = [
@@ -134,11 +134,11 @@ AUTH_PASSWORD_VALIDATORS = [
 #Email
 
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='clickofficialgroup@gmail.com'
+EMAIL_HOST_USER='*********************'
 EMAIL_USE_TLS=True
-DEFAULT_FROM_EMAIL='clickofficialgroup@gmail.com'
+DEFAULT_FROM_EMAIL='****************'
 EMAIL_PORT=587
-EMAIL_HOST_PASSWORD='Click2022'
+EMAIL_HOST_PASSWORD='*****************'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

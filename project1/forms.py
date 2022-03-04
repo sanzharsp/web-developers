@@ -168,6 +168,7 @@ class OrderForm(forms.ModelForm):
             'first_name', 'last_name', 'phone', 'address', 'buying_type', 'order_date', 'comment'
         )
 
+<<<<<<< HEAD
 
 class email(forms.ModelForm):
 
@@ -177,3 +178,5 @@ class email(forms.ModelForm):
     class Meta:
         model=NEWS_MODEL
         fields=['email']
+=======
+>>>>>>> c71bb1bd045c7d6aca5b5a0f4d33e29e8aa22c1c

@@ -1,10 +1,9 @@
 
 # Подключаем компонент для работы с формой
-from .models import Comment,Order,Category,subcategories,Product
+from .models import Comment,Order,NEWS_MODEL
 from django import forms
 from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import get_user_model
-from ckeditor.fields import RichTextField
 
 User = get_user_model()
 
@@ -170,138 +169,11 @@ class OrderForm(forms.ModelForm):
         )
 
 
-
-#######################################################################################
-
-# ###################        # ########### #          # # # #                # # # #
-# ###################        # ########### #          # #  # #              # #  # #
-# #                          # #         # #          # #   # #            # #   # #
-# #                          # #         # #          # #    # #         # #     # #  
-# #                          # #         # #          # #     # #       # #      # #
-# #                          # ########### #          # #      # #    # #        # #
-# #                          # ########### #          # #       # # # #          # #
-# #                          # ## #                   # #         # #            # #
-# #                          # # # #                  # #                        # #
-# #                          # #  # #                 # #                        # #
-# #################          # #   # #                # #                        # #
-###################          # #    # #               # #                        # #
-
-#########################################################################################
+class email(forms.ModelForm):
 
 
-
-# models Category forms
-
-class CategoryCRM_Form(forms.ModelForm):
-
-
-    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Название категория','class':'text-field__input'}))
-    image = forms.ImageField()
-
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].label = 'Название категория'
-        self.fields['image'].label = 'Изображение'
+    email=forms.EmailField()
 
     class Meta:
-        model = Category
-        fields = (
-            'name','image'
-        )
-
-# models Category Set forms
-
-class CategoryCRM_SET_Form(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput())
-    image = forms.ImageField()
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['name'].label = 'Название категория'
-        self.fields['image'].label = 'Изображение'
-
-    class Meta:
-        model = Category
-        fields = (
-            'name','image'
-        )
-
-# models Product forms
-
-class ProductFormCRM(forms.ModelForm):
-
-
-    category = forms.ModelChoiceField(queryset=Category.objects.all())
-    subcategor =forms.ModelChoiceField(queryset=subcategories.objects.all())
-    title=forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Название категория','class':'text-field__input'}))
-    image=forms.ImageField()
-    images_2=forms.ImageField(required=False)
-    images_3=forms.ImageField(required=False)
-    description=RichTextField()
-    price=forms.DecimalField()
-    count_product=forms.DecimalField()
-    history_price=forms.DecimalField()
-    discount=forms.DecimalField(initial=0)
-    discount_end_date=forms.DateTimeField(initial='04.02.2022')
-    new=forms.BooleanField(required=False)
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['category'].label = 'Категория'
-        self.fields['subcategor'].label = 'Подкатегория'
-        self.fields['title'].label = 'Название продукта'
-        self.fields['image'].label = 'Главная изображение товара'
-        self.fields['images_2'].label = 'Дочерние изображения'
-        self.fields['images_3'].label = 'Дочерние изображения'
-        self.fields['description'].label = 'Описание'
-        self.fields['price'].label = 'Цена товара'
-        self.fields['count_product'].label = 'Количество товара'
-        self.fields['history_price'].label = 'Старая цена'
-        self.fields['discount'].label = 'Скидка в процентах'
-        self.fields['discount_end_date'].label = 'Дата окончания скидки'
-        self.fields['new'].label = 'Новый продукт'
-    class Meta:
-        model = Product
-        fields = (
-            'category','subcategor','title','image','images_2','images_3','description','price','count_product','history_price','discount','discount_end_date','new'
-        )
-
-
-class ProductFormCRMset(forms.ModelForm):
-
-
-    category = forms.ModelChoiceField(queryset=Category.objects.all())
-    subcategor =forms.ModelChoiceField(queryset=subcategories.objects.all())
-    title=forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Название категория','class':'text-field__input'}))
-    image=forms.ImageField()
-    images_2=forms.ImageField(required=False)
-    images_3=forms.ImageField(required=False)
-    description=RichTextField()
-    price=forms.DecimalField()
-    count_product=forms.DecimalField()
-    history_price=forms.DecimalField()
-    discount=forms.DecimalField(initial=0)
-    discount_end_date=forms.DateTimeField(initial='04.02.2022')
-    new=forms.BooleanField(required=False)
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['category'].label = 'Категория'
-        self.fields['subcategor'].label = 'Подкатегория'
-        self.fields['title'].label = 'Название продукта'
-        self.fields['image'].label = 'Главная изображение товара'
-        self.fields['images_2'].label = 'Дочерние изображения'
-        self.fields['images_3'].label = 'Дочерние изображения'
-        self.fields['description'].label = 'Описание'
-        self.fields['price'].label = 'Цена товара'
-        self.fields['count_product'].label = 'Количество товара'
-        self.fields['history_price'].label = 'Старая цена'
-        self.fields['discount'].label = 'Скидка в процентах'
-        self.fields['discount_end_date'].label = 'Дата окончания скидки'
-        self.fields['new'].label = 'Новый продукт'
-    class Meta:
-        model = Product
-        fields = (
-            'category','subcategor','title','image','images_2','images_3','description','price','count_product','history_price','discount','discount_end_date','new'
-        )
+        model=NEWS_MODEL
+        fields=['email']

@@ -177,7 +177,9 @@
                             <div class="filter__menu__container">
                                 <div class="product__menu">
                                     {% if  my_oreder %}
-                                    <button data-filter="*"  class="is-checked">Все ваши заказы {{ my_oreder.count }}</button>
+                                  
+                                    <button data-filter="*"  class="is-checked">Вы совершили заказов {{ my_oreder.count }} раз </button>
+                                
                                     {% else %}
                                     <button data-filter="*"  class="is-checked gradient">У вас нет заказов</button>
                                     {% endif %}

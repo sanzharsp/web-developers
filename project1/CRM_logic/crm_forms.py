@@ -1,8 +1,8 @@
 from project1.models import Category,subcategories,Product
 from django import forms
 from ckeditor.fields import RichTextField
-from project1.views import today,Astana,DATA_TIME_FORMAT
-import datetime
+from project1.views import Astana,DATA_TIME_FORMAT
+
 #######################################################################################
 
 # ###################        # ########### #          # # # #                # # # #
@@ -76,7 +76,7 @@ class ProductFormCRM(forms.ModelForm):
     history_price=forms.DecimalField()
     discount=forms.DecimalField()
     discount_end_date=forms.DateTimeField(initial=Astana.strftime(DATA_TIME_FORMAT),widget=forms.DateTimeInput())
-    new=forms.BooleanField(required=False)
+    new=forms.BooleanField(initial=False, required=False)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -101,9 +101,8 @@ class ProductFormCRM(forms.ModelForm):
 
 #Редактирование  продукта
 class ProductCRM_SET_FORM(forms.ModelForm):
-    SET=Category.objects.all()
 
-    category = forms.ModelChoiceField(queryset=SET)
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
     subcategor =forms.ModelChoiceField(queryset=subcategories.objects.all())
     title=forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Название продукта','class':'text-field__input'}))
     image=forms.ImageField()
@@ -114,8 +113,8 @@ class ProductCRM_SET_FORM(forms.ModelForm):
     count_product=forms.DecimalField()
     history_price=forms.DecimalField()
     discount=forms.DecimalField()
-    discount_end_date=forms.DateTimeField()
-    new=forms.BooleanField(required=False)
+    discount_end_date=forms.DateTimeField(widget=forms.DateTimeInput())
+    new=forms.BooleanField(initial=False, required=False)
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -136,4 +135,18 @@ class ProductCRM_SET_FORM(forms.ModelForm):
         model = Product
         fields = (
             'category','subcategor','title','image','images_2','images_3','description','price','count_product','history_price','discount','discount_end_date','new'
+        )
+
+
+
+# Добавление Подкатегория  
+
+class subcatigoriesFORMCRM(forms.ModelForm):
+    subcategory=forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Название подкатигория','class':'text-field__input'}))
+    category_product= forms.ModelChoiceField(queryset=Category.objects.all())
+
+    class Meta:
+        model = Product
+        fields = (
+            'subcategory','category_product'
         )

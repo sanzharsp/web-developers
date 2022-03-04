@@ -10,6 +10,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
         <!-- End Header Style -->
         
         <div class="body__overlay"></div>
@@ -21,10 +22,18 @@
                     <div class="row" >
                         <div class="col-md-12" >
                             <div class="search__inner">
-                                <form class="search" action="{% url 'search_results' %}" method="get">
-                                    <input name="q" placeholder="Search here... " type="text">
-                                    <button type="submit"></button>
+                                <form class="search" action="{% url 'search_results_end' %}" method="get">
+                                
+                                        <input  id="search-ajax" name="quryset" list="character"  placeholder="Поищи здесь... " type="text">
+                                        <button type="submit">
+                                            <datalist id="character" >
+                                            </datalist>
+                                        </button>
+                                        <script type="text/javascript" src="{% static 'js/AJAX/ajax_search.js' %}"></script>
+                                    
                                 </form>
+                                
+                                
                                   <div class="search__close__btn">
                                     <span class="search__close__btn_icon"><i class="zmdi zmdi-close"></i></span>
 
@@ -529,10 +538,11 @@
                                                         <div class="pro__thumb">
                                                             <a href="{% url 'product_detail' product.pk %}">
                                                                
+                                                            
                                                                 {% if product.image %}
                                                                 <div class="product_discount" >
                                                                     {% if  product.discount != 0 %}
-                                                                    <div class="sale_discount">- {{ product.discount}}% {{ product.discount_end_date|date:"d.m.Y" }}</div>
+                                                                    <div  class="sale_discount">- {{ product.discount}}% {{ product.discount_end_date|date:"d.m.Y" }}</div>
                                                                     {% endif %}
                                                                     {% if product.new %}
                                                                     <div class="sale_new">новинка</div>
@@ -540,6 +550,7 @@
                                                                     <img src="{{ product.image.url }}"  alt="product images">
                                                                 </div> 
                                                                 {% endif %}
+                                                           
 
                                                             </a>
                                                         </div>
@@ -584,18 +595,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                            <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -603,52 +615,7 @@
                                                            
                                                             {% endif %}
                                                         
-                                                            <script>$(document).ready(function(){
-                                                                
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
-                                                          
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const post_like=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':post_like,
-                                                                    },
-                                                                    success: function(response){
-                                                                        
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                          
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
+                                                            
                                                         </ul>
 
                                                         
@@ -662,7 +629,8 @@
                                       {% endif %}
                                          
                                             {% endfor %}
-                                     
+                                           
+                                            
                                         
                                         </div>
                                     </div> 
@@ -724,18 +692,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                               <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -743,52 +712,7 @@
                                                            
                                                             {% endif %}
                                                         
-                                                            <script>$(document).ready(function(){
-                                                                
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
                                                           
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const post_like=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':post_like,
-                                                                    },
-                                                                    success: function(response){
-                                                                        
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                          
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -855,18 +779,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                               <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -874,52 +799,7 @@
                                                            
                                                             {% endif %}
                                                         
-                                                            <script>$(document).ready(function(){
-                                                                
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
                                                           
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const post_like=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':post_like,
-                                                                    },
-                                                                    success: function(response){
-                                                                        
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                          
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -1075,18 +955,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                               <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -1094,48 +975,7 @@
                                                            
                                                             {% endif %}
 
-                                                            <script>$(document).ready(function(){
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
-                                                          
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const count=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':count,
-                                                                    },
-                                                                    success: function(response){
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
+                                                         
                                                         </ul>
                                                         
                                                     </div>
@@ -1208,18 +1048,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                               <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -1227,52 +1068,7 @@
                                                            
                                                             {% endif %}
                                                         
-                                                            <script>$(document).ready(function(){
-                                                                
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
                                                           
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const post_like=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':post_like,
-                                                                    },
-                                                                    success: function(response){
-                                                                        
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                          
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -1339,18 +1135,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                               <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -1358,52 +1155,7 @@
                                                            
                                                             {% endif %}
                                                         
-                                                            <script>$(document).ready(function(){
-                                                                
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
-                                                          
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const post_like=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':post_like,
-                                                                    },
-                                                                    success: function(response){
-                                                                        
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                          
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
+                                                           
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -1561,66 +1313,26 @@
                                                           {{ product.value }}
                                                                    </div>
                                                                    
-                                                                <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                                   <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                     {% csrf_token %}
                                                                    
                                                                     <input type="hidden" name="next" value="{{ request.path }}">
     
-                                                                    <button class="button"  type="submit" >
+                                                                    <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                     <div class="hand">
                                                                     <div class="thumb"></div>
                                                                     </div>
                                                                     <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                    
                                                                 </button>
+                                                               
                                                                 </form>
                                                     
     
                                                                 {% else %}
                                                                
                                                                 {% endif %}
-                                                                <script>$(document).ready(function(){
-                                                                    $('.like-form{{ product.id }}').submit(function(e){
-                                                                    e.preventDefault();
-                                                              
-                                                                    const post_id = $(this).attr('id');
-                                                                    const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                    const trim = $.trim(Like_Unlike_Text)
-                                                                    const likes = $(`#like${post_id}`).text();
-                                                                    const count=$(`.likes${post_id}`).text()
-                                                                    const trimCount = parseInt(likes);
-                                                                    $.ajax({
-                                                                    type:"POST",
-                                                                    url:`{% url 'like' product.pk %}`,
-                                                                        data:{
-                                                                            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                            'post_id':post_id,
-                                                                            'post_like':count,
-                                                                        },
-                                                                        success: function(response){
-                                                                            if(trim === 'Unlike'){
-                                                                                $(`.class_str${post_id}`).text('Like')
-                                                                                res=trimCount+1  
-                                                                                $(`.likes${post_id}`).text(res)  
-                                                                            }
-                                                                            if (trim === 'Like'){
-                                                                                $(`.class_str${post_id}`).text('Unlike')
-                                                                                res=trimCount-1 
-                                                                                $(`.likes${post_id}`).text(res)
-                                                                            }
-                                                                            if (res < 0){
-                                                                               
-                                                                                res=trimCount+1 
-                                                                            }
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        },
-                                                                        error: function(response) {
-                                                                                    console.log('error', response)
-                                                                         }
-                                                                    });
-                                                                    
-                                                                            });
-                                                                        });</script>
+                                                               
                                                            
                                                             </ul>
                                                             
@@ -1692,18 +1404,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                               <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -1711,52 +1424,7 @@
                                                            
                                                             {% endif %}
                                                         
-                                                            <script>$(document).ready(function(){
-                                                                
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
-                                                          
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const post_like=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':post_like,
-                                                                    },
-                                                                    success: function(response){
-                                                                        
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                          
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
+                                                           
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -1823,18 +1491,19 @@
                                                             <div id="id_str{{ product.id }}" class="class_str{{ product.id }}">
                                                       {{ product.value }}
                                                                </div>
-                                                            <form method="POST" action="{% url 'like' product.pk %}" class="like-form{{ product.id }}" id='{{ product.id }}'>
+                                                                <form method="POST" class="like-form{{ product.id }}" id='{{ product.id }}'>
                                                                 {% csrf_token %}
                                                                
                                                                 <input type="hidden" name="next" value="{{ request.path }}">
 
-                                                                <button class="button"  type="submit" >
+                                                                <button class="button" onclick="Like_dislike_ajax('{{ product.id }}');return false;" type="submit" >
                                                                 <div class="hand">
                                                                 <div class="thumb"></div>
                                                                 </div>
                                                                 <span><div id="like{{product.id}}" class="likes{{product.id}}">{{ product.likes.all.count }}</div></span>
                                                                
                                                             </button>
+                                                           
                                                             </form>
                                                 
 
@@ -1842,52 +1511,7 @@
                                                            
                                                             {% endif %}
                                                         
-                                                            <script>$(document).ready(function(){
-                                                                
-                                                                $('.like-form{{ product.id }}').submit(function(e){
-                                                                e.preventDefault();
-                                                          
-                                                                const post_id = $(this).attr('id');
-                                                                const Like_Unlike_Text=$(`#id_str${post_id}`).text()
-                                                                const trim = $.trim(Like_Unlike_Text)
-                                                                const likes = $(`#like${post_id}`).text();
-                                                                const post_like=$(`.likes${post_id}`).text()
-                                                                const trimCount = parseInt(likes);
-                                                                
-                                                                $.ajax({
-                                                                type:"POST",
-                                                                url:`{% url 'like' product.pk %}`,
-                                                                    data:{
-                                                                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                                                                        'post_id':post_id,
-                                                                        'post_like':post_like,
-                                                                    },
-                                                                    success: function(response){
-                                                                        
-                                                                        if(trim === 'Unlike'){
-                                                                            $(`.class_str${post_id}`).text('Like')
-                                                                          
-                                                                            res=trimCount+1  
-                                                                            $(`.likes${post_id}`).text(res)  
-                                                                        }
-                                                                        if (trim === 'Like'){
-                                                                            $(`.class_str${post_id}`).text('Unlike')
-                                                                            res=trimCount-1 
-                                                                            $(`.likes${post_id}`).text(res)
-                                                                        }
-                                                                        if (res < 0){
-                                                                           
-                                                                            res=trimCount+1 
-                                                                        }
-                                                                        $(`.likes${post_id}`).text(res)
-                                                                    },
-                                                                    error: function(response) {
-                                                                                console.log('error', response)
-                                                                     }
-                                                                });
-                                                                
-                                                                        });
-                                                                    });</script>
+                                                           
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -2017,5 +1641,5 @@
             </div>
         </section>
 
-
+        
 {% endblock content %}

@@ -162,7 +162,7 @@
                             <div class="bradcaump__inner text-center">
                                 <h2 class="bradcaump-title">Создание Продукта</h2>
                                 <nav class="bradcaump-inner">
-                                  <a class="breadcrumb-item" href="{% url 'index' %}"> Home</a>
+                                  <a class="breadcrumb-item" href="{% url 'index_crm' %}"> Home</a>
                                   <span class="brd-separetor">/</span>
                                   <span class="breadcrumb-item active">Создание Продукта</span>
                                 </nav>
@@ -176,7 +176,7 @@
         <!-- Start Login Register Area -->
         <div class="categories-menu mrg-xs">
             <div class="category-heading">
-               <h3> {{ product_view.count }} Категорий </h3>
+               <h3> {{ product_view.count }} Продуктов </h3>
             </div>
             <div class="category-menu-list">
                 
@@ -200,7 +200,7 @@
 
                 <!-- Start Login Register Content -->
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-3 col-md-offset-2">
                         <div class="htc__login__register__wrap">
                             <!-- Start Single Content -->
                             <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade in active">
@@ -209,10 +209,8 @@
 
                                     </style>
                                    
-                                   <ul class="login__register__menu" role="tablist">
-                                    <li role="presentation" class="login"><a >Создать продукт</a></li>
-                                </ul>
-                                <form method="POST" class="login" data-ajax="false" enctype="multipart/form-data">
+                                  
+                                <form method="POST" action="{% url 'products_add' %}" class="login" data-ajax="false" enctype="multipart/form-data">
                                     
                                     {% csrf_token %}
                                     
@@ -223,7 +221,171 @@
                                     </ul>
                                 
                                     
-                                    {{ form|safe }}
+                                    
+
+                                    <tr>
+                                        <th><label for="id_category">Категория:</label></th>
+                                        <td>
+                                    
+                                            <select id="select_id" onchange='CRM_Product_create_set(this.value)' name="category" required id="id_category">
+                                           
+                                                <option value="" selected>---------</option>
+                                              
+                                            {% for category_view in category_view %}
+                                            
+                                            
+                                           
+                                          <option value="{{ category_view.id }}" >{{ category_view.name }}</option>
+                                                                          
+                                        
+                                          {% endfor %}
+                                          
+                                  
+                                         
+                                        </select>
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_subcategor">Подкатегория:</label></th>
+                                        <td>
+                                    
+                                          <select id="ajax" name="subcategor" required id="id_subcategor">
+                                      <option value="" selected>---------</option>
+                                    
+                                      
+                                    
+                                    </select>
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_title">Название продукта:</label></th>
+                                        <td>
+                                    
+                                          <input type="text" name="title" placeholder="Название продукта" class="text-field__input" required id="id_title">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_image">Главная изображение товара:</label></th>
+                                        <td>
+                                    
+                                          <input type="file" name="image" accept="image/*" required id="id_image">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_images_2">Дочерние изображения:</label></th>
+                                        <td>
+                                    
+                                          <input type="file" name="images_2" accept="image/*" id="id_images_2">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_images_3">Дочерние изображения:</label></th>
+                                        <td>
+                                    
+                                          <input type="file" name="images_3" accept="image/*" id="id_images_3">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_description">Описание:</label></th>
+                                        <td>
+                                    
+                                          <div class="django-ckeditor-widget" data-field-id="id_description" style="display: inline-block;">
+                                        <textarea cols="40" id="id_description" name="description" rows="10" required data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;Full&quot;, &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;language&quot;: &quot;ru-ru&quot;}" data-external-plugin-resources="[]" data-id="id_description" data-type="ckeditortype"></textarea>
+                                    </div>
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_price">Цена товара:</label></th>
+                                        <td>
+                                    
+                                          <input type="number" name="price" step="any" required id="id_price">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_count_product">Количество товара:</label></th>
+                                        <td>
+                                    
+                                          <input type="number" name="count_product" step="any" required id="id_count_product">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_history_price">Старая цена:</label></th>
+                                        <td>
+                                    
+                                          <input type="number" name="history_price" step="any" required id="id_history_price">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_discount">Скидка в процентах:</label></th>
+                                        <td>
+                                    
+                                          <input type="number" name="discount" step="any" required id="id_discount">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_discount_end_date">Дата окончания скидки:</label></th>
+                                        <td>
+                                    
+                                          <input type="text" name="discount_end_date" value="2022-02-15 18:30:34" required id="id_discount_end_date">
+                                    
+                                    
+                                        </td>
+                                      </tr>
+                                    
+                                      <tr>
+                                        <th><label for="id_new">Новый продукт:</label></th>
+                                        <td>
+                                    
+                                          <input type="checkbox" name="new" id="id_new" style="display: inline-block;
+                                          width: 1em;
+                                          height: 1em;
+                                          flex-shrink: 0;
+                                          flex-grow: 0;
+                                          border: 1px solid #adb5bd;
+                                          border-radius: 0.25em;
+                                          margin-right: 0.5em;
+                                          background-repeat: no-repeat;
+                                          background-position: center center;
+                                          background-size: 50% 50%;">
+                                    
+                                    
+                                    
+                                    
+                                        </td>
+                                      </tr>
                                
                                 <div class="htc__login__btn mt--30">
                                     <button ><a>Создать</a></button>
@@ -231,19 +393,11 @@
                                 </div>
                                 
                                 </form>
+                                <script src="/static/ckeditor/ckeditor-init.js" data-ckeditor-basepath="/static/ckeditor/ckeditor/" id="ckeditor-init-script"></script>
+                                <script src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+                                <script src="{% static 'js/AJAX/CRM_AJAX/product_ajax.js' %}"></script>
                            
-                                <div class="htc__social__connect">
-                                    <h2>Or Login With</h2>
-                                    <ul class="htc__soaial__list">
-                                        <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-
-                                        <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
-
-                                        <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
-
-                                        <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
-                                    </ul>
-                                </div>
+                   
                             </div>
             
 

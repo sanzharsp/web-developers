@@ -163,7 +163,7 @@
                             <div class="bradcaump__inner text-center">
                                 <h2 class="bradcaump-title">Редактирование {{ product.title }}</h2>
                                 <nav class="bradcaump-inner">
-                                  <a class="breadcrumb-item" href="{% url 'index' %}"> Home</a>
+                                  <a class="breadcrumb-item" href="{% url 'products_add'%}"> Home</a>
                                   <span class="brd-separetor">/</span>
                                   <span class="breadcrumb-item active">Редактирование {{ product.title }}</span>
                                 </nav>
@@ -185,7 +185,7 @@
 
                 <!-- Start Login Register Content -->
                 <div class="row">     
-                    <div class="col-md-6 col-md-offset-3">
+                    <div class="col-md-3 col-md-offset-2">
                         <div class="htc__login__register__wrap">
                             <!-- Start Single Content -->
                             
@@ -207,62 +207,21 @@
                                        
                  
                                         <tr>
-                                            <th><label for="id_category">Категория:</label></th>
+                                            <th><label for="id_category">Продуктов:</label></th>
                                             <td>
                                        
                                           {% csrf_token %}
-                                              <select id="select_id" onchange='myFunction(this.value)' name="category" required id="id_category">
+                                              <select id="select_id" onchange='CRM_Product_create_set(this.value)' name="category" required id="id_category">
                                            
-                                          
+                                                <option value="{{ product.category.id }}" selected> {{ product.category.name }}</option>
                                               
                                             {% for category_view in category_view %}
                                             
                                             
-                                          <option value="{{ category_view.id }}" selected>{{ category_view.name }}</option>
+                                           
+                                          <option value="{{ category_view.id }}" >{{ category_view.name }}</option>
                                                                           
-                                        <script>
-                                            
-                                          function myFunction(val) {
-                                            
-                                            
-                                            
-                                            
-                                          
-                                            $.ajax({
-                                              type:"GET",
-                                                                  url:`{% url 'ajaxcrm' %}`,
-                                                                  data:{
-                                                                      'val':val
-                                                                  },
-                                                                  success: function(response){
-                                                                    
-                                                                     
-                                                                      $('#ajax').text(response.mas)
-                                                                      
-                                                                      
-                                                                      var  select = document.getElementById('ajax');
-
-                                                                    for (i=0; i<(response.mas).length; i++){
-                                                                        var opt = document.createElement('option');
-                                                                        opt.value = response.mas[i];
-                                                                        opt.innerHTML = response.mas_name[i];
-                                                                        select.appendChild(opt);
-                                                                    }
-                                                                    
-                                                                  },
-                                                                  error: function(response) {
-                                                                              console.log('error', response)
-                                                                   }
-
-                                            })
-                                            
-                                            
-                                          }
-
-
-                                          
-                                          
-                                           </script>
+                                        
                                           {% endfor %}
                                           
                                   
@@ -383,7 +342,7 @@
                                             <th><label for="id_discount">Скидка в процентах:</label></th>
                                             <td>
                                         
-                                              <input type="number" name="discount" value="0" step="any" required id="id_discount" value="{{ product.discount }}">
+                                              <input type="number" name="discount"  step="any" required id="id_discount" value="{{ product.discount }}">
                                         
                                         
                                             </td>
@@ -393,7 +352,7 @@
                                             <th><label for="id_discount_end_date">Дата окончания скидки:</label></th>
                                             <td>
                                         
-                                              <input type="text" name="discount_end_date" required id="id_discount_end_date" value="{{ product.discount_end_date|date:'Y-m-d' }}">
+                                              <input type="datetime-local" name="discount_end_date" required id="id_discount_end_date" value="{{ product.discount_end_date|date:'d.m.Y H:i' }}">
                                         
                                         
                                             </td>
@@ -403,7 +362,17 @@
                                             <th><label for="id_new">Новый продукт:</label></th>
                                             <td>
                                         
-                                              <input type="checkbox" name="new" required id="id_new" {% if  product.new  %} checked {% endif %}>
+                                              <input type="checkbox" name="new"  id="id_new" {% if  product.new  %} checked {% endif %} style="display: inline-block;
+                                              width: 1em;
+                                              height: 1em;
+                                              flex-shrink: 0;
+                                              flex-grow: 0;
+                                              border: 1px solid #adb5bd;
+                                              border-radius: 0.25em;
+                                              margin-right: 0.5em;
+                                              background-repeat: no-repeat;
+                                              background-position: center center;
+                                              background-size: 50% 50%;">
                                         
                                         
                                         
@@ -419,19 +388,12 @@
                                 </div>
                                 
                                 </form>
+                                <script src="/static/ckeditor/ckeditor-init.js" data-ckeditor-basepath="/static/ckeditor/ckeditor/" id="ckeditor-init-script"></script>
+                                <script src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+                                <script src="{% static 'js/AJAX/CRM_AJAX/product_ajax.js' %}"></script>
+                                
                            
-                                <div class="htc__social__connect">
-                                    <h2>Or Login With</h2>
-                                    <ul class="htc__soaial__list">
-                                        <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-
-                                        <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
-
-                                        <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
-
-                                        <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
-                                    </ul>
-                                </div>
+                                
                             </div>
             
 

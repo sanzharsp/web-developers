@@ -277,15 +277,15 @@
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                         <ul class="product__deatils__tab mb--60" role="tablist">
                             <li role="presentation" class="active">
-                                <a href="#description" role="tab" data-toggle="tab">Description</a>
+                                <a href="#description" role="tab" data-toggle="tab">Описание</a>
                             </li>
                             <li role="presentation">
-                                <a href="#sheet" role="tab" data-toggle="tab">Data sheet</a>
+                                <a href="#sheet" role="tab" data-toggle="tab">Техническая Спецификация</a>
                             </li>
                             {% for products in products %}
                             {% if products.id == pk  %}
                             <li role="presentation" href="{% url 'base_product_comment' pk %}">
-                                <a href="#{{ pk }}" role="tab" data-toggle="tab">Reviews</a>
+                                <a href="#{{ pk }}" role="tab" data-toggle="tab">Отзывы</a>
                             </li>
                             {% endif %}
                             {% endfor %}
@@ -299,8 +299,12 @@
                             <div role="tabpanel" id="description" class="product__tab__content fade in active">
                                 <div class="product__description__wrap">
                                     <div class="product__desc">
-                                        <h2 class="title__6">Details</h2>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis noexercit ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id.</p>
+                                        <h2 class="title__6">Описание</h2>
+                                        {% for products in products %}
+                                        {% if products.id == pk  %}
+                                        <p>{{ products.description|safe }}</p>
+                                        {% endif %}
+                                        {% endfor %}
                                     </div>
                                     <div class="pro__feature">
                                         <h2 class="title__6">Features</h2>
@@ -364,6 +368,8 @@
                                             
                                             
                                             {{ comments|comments_filter }}
+                                        
+                                         
                                             
                          
                                         </div>
@@ -383,7 +389,7 @@
                                     $(document).ready(function(){
                                     
                                     $(".reply").on('click', function(){
-                                        console.log('Hello')
+                                     
                                         var commentId = $(this).attr('data-id')
                                         const trim=$(`.set${commentId}`).text()
                                         if(trim=='Ответить'){
@@ -435,8 +441,9 @@
                                             data: data,
                                             url: "{% url 'comment_child_create' pk %}",
                                             success: function(data){
-                                            
-                                                window.location.replace('/')
+
+                                         
+                                                window.location.replace(`/Product/${'{{ pk }}'}/product_detail`)
                                              }
                                             })
                                         })

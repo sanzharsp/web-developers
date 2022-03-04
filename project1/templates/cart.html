@@ -238,6 +238,9 @@
                                     </thead>
                                        
                                     <tbody>
+                                        <div id="ajax_messages">
+                                            
+                                        </div>
                                         {% if messages %}
                                         <ul class="messages">
                                             {% for message in messages %}
@@ -254,13 +257,11 @@
                                             <td class="product-name"><a href="#">{{ item.product.title }}</a></td>
                                             <td class="product-price"><span class="amount">{{ item.product.price }} тенге </span></td>
                                        
-                                            <form action="{% url 'change_qty' slug=item.product.slug %}" method="POST">
-                                            <td><input type="number" name="qty"  min="1" value="{{ item.qty }}"> 
-                                                {% csrf_token %}
-                                                <input type="submit" value="Изменить" style="width: 50%; top:20px,20px" /></td>
-                                          
+                                            <form action="" method="POST">
+                                            <td><input class="qty{{ item.product.slug }}" type="number" oninput="Ajax_count_update('{{ item.product.slug  }}')"  min="1" value="{{ item.qty }}"> 
+                                           
                                             </form> 
-                                            <td class="product-subtotal">{{ item.final_price }} тенге</td>
+                                            <td id="praice_ajax{{ item.product.slug }}" class="product-subtotal">{{ item.final_price }} тенге</td>
                                             <td class="product-remove"><a href="{% url 'delete_from_cart' slug=item.product.slug %}">X</a></td>
                                             
 
@@ -268,7 +269,87 @@
                                     
                                          {% endfor %}
                                      
-                                        
+                                         <script>
+                                             /*
+                                             let inp = document.querySelector('.qty')
+                                         inp.addEventListener('input', function(){
+                                             console.log(this.value)
+                                             })
+                                             */
+                                             function Ajax_count_update(slug){
+                                                let inp = document.querySelector(`.qty${slug}`)
+                                                function getCookie(name) {
+                                                let cookieValue = null;
+                                                if (document.cookie && document.cookie !== '') {
+                                                    const cookies = document.cookie.split(';');
+                                                    for (let i = 0; i < cookies.length; i++) {
+                                                        const cookie = cookies[i].trim();
+                                                        // Does this cookie string begin with the name we want?
+                                                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                            break;
+                                                            }
+                                                        }
+                                                    }
+                                                    return cookieValue;
+                                                }
+                                        const csrftoken = getCookie('csrftoken');
+                                                
+                                                $.ajax({
+                                            type:"POST",
+                                             url:`/change-qty/${slug}/`,
+                                                data:{
+                                                        'slug':slug,
+                                                        'qty':inp.value,
+                                                        csrfmiddlewaretoken: csrftoken
+                                                    },
+                                                    success: function(response){
+                                                        if (response.success){
+                                                            var el = document.getElementById('ajax_messages')
+                                                            let resul = document.createElement('div')
+                                                            resul.classList.add('alert')
+                                                            resul.classList.add('alert-success')
+                                                            resul.setAttribute("id","ajax_messages")
+                                                            resul.innerHTML = `
+                                                                <li style="color: black;">${response.success}</li>
+                                                                `
+                                                 
+                                                            el.replaceWith(resul);
+                                                            
+                                                            let counts_product=parseInt(inp.value)
+                                                            let trims=parseFloat(response.product)
+                                                            $(`#praice_ajax${slug}`).text(parseFloat(counts_product*trims)+" тенге")
+                                                           
+
+                                                            
+                                                        }
+                                                        if (response.errors){
+
+                                                            var el = document.getElementById('ajax_messages')
+                                                            let resul = document.createElement('div')
+                                                            resul.classList.add('alert')
+                                                            resul.classList.add('alert-danger')
+                                                            resul.setAttribute("id","ajax_messages")
+                                                            resul.innerHTML = `
+                                                                <li style="color: black;">${response.errors}</li>
+                                                                `
+                                                 
+                                                            el.replaceWith(resul);
+
+                                                        }
+                                                      
+                                                        $("#final_price").text(response.final_price)
+                                                    },
+                                             
+                                                    error: function(response) {
+                                                                            console.log('error', response)
+                                                                            console.log(response.errors)
+                                                                 }
+                                            })
+                                           
+                                            
+                                             }
+                                     </script>
                                         <!-- <tr>
                                             <td class="product-thumbnail"><a href="#"><img src="{% static 'images/product/3.png' %}" alt="product img" /></a></td>
                                             <td class="product-name"><a href="#">Vestibulum dictum magna</a></td>
@@ -328,7 +409,7 @@
                                                 <tr class="order-total">
                                                     <th>ОБЩАЯ ЦЕНА</th>
                                                     <td>
-                                                        <strong><span class="amount">{{ cart.final_price }}</span></strong>
+                                                        <strong><span id="final_price" class="amount">{{ cart.final_price }}</span></strong>
                                                     </td>
                                                 </tr>                                           
                                             </tbody>

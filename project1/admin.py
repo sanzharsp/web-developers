@@ -34,7 +34,7 @@ class ProductAdminForm(ModelForm):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug','birth_date')
+    list_display = ('id','name', 'slug','birth_date')
 
 
 class CustomerAdmin(admin.ModelAdmin):
@@ -47,7 +47,7 @@ class ProductChoiceField(forms.ModelChoiceField):
 
 class ProductAdmin(admin.ModelAdmin): 
     form=ProductAdminForm
-    list_display=('title','category','slug','price','birth_date')
+    list_display=('id','title','category','slug','price','birth_date')
 
 # Исправить Админка 0
     #def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -59,7 +59,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class subcategoriesAdmin(admin.ModelAdmin):
-    list_display=('subcategory','birth_date')
+    list_display=('id','subcategory','birth_date')
 
     
 class New_RecomedationAdmin(admin.ModelAdmin):
@@ -88,6 +88,8 @@ admin.site.register(subcategories,subcategoriesAdmin)
 admin.site.register(Product,ProductAdmin)
 
 admin.site.register(Comment)
+
+admin.site.register(NEWS_MODEL)
 
 admin.site.site_header="Админ панель для интерент магазина"
 

@@ -26,6 +26,7 @@ from .views import (
     MakeOrderView,
     Product_categoty_all,
     Filters,
+    News_view,
 )
 
 #CRM
@@ -39,6 +40,9 @@ from .CRM_logic.crm_view import(
     ProductViewCRMset,
     
     Delete_ProductCRM,
+    SubcatigoriesCRM,
+    SubcatigoriesSetCRM,
+    Delete_SubcatigoriesCRM,
 )
 
 
@@ -58,6 +62,10 @@ urlpatterns = [
     path('wishlist',views.Index().wishlist,name='wishlist'),
 
     path('team',views.Index().team,name='team'),
+
+    #Подгрузка контента
+
+    path('ajax_downolad',views.Index().ajax_shop,name='ajax_downolad'),
 
     path('Product/<int:pk>/product_detail',ProductDetailView.as_view(),name='product_detail'),
 
@@ -147,6 +155,8 @@ urlpatterns = [
 
     path('search/', SearchResultsView.as_view(), name='search_results'),
 
+    path('search_results_end/', SearchResultsView().get_mod, name='search_results_end'),
+
 
 
     
@@ -200,7 +210,21 @@ urlpatterns = [
 
     path('category_delete/<str:slug>/',Delete_CategoryCRM.as_view(),name='category_delete'),
 
+    #subcatigories add
 
+    path('subcatigory_add',SubcatigoriesCRM.as_view(),name='subcatigory_add'),
+
+    #subcatigories set
+
+    path('subcatigory_set/<str:slug>/',SubcatigoriesSetCRM.as_view(),name='subcatigory_set'),
+
+    #delete subcatigories
+
+    path('subcatigories_delete/<str:slug>/',Delete_SubcatigoriesCRM.as_view(),name='subcatigories_delete'),
+
+    #EMAIL носвости
+
+    path('EMAIL',News_view.as_view(),name='EMAIL')
 
 ]
 

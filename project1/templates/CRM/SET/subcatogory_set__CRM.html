@@ -1,3 +1,6 @@
+
+
+
 {% extends 'extends.html' %}
 {% load static %}
 
@@ -158,11 +161,11 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="bradcaump__inner text-center">
-                                <h2 class="bradcaump-title">Администрирование</h2>
+                                <h2 class="bradcaump-title">Редактирование {{ subcatigory.subcategory }}</h2>
                                 <nav class="bradcaump-inner">
-                                  <a class="breadcrumb-item" href="{% url 'index' %}"> Home</a>
+                                  <a class="breadcrumb-item" href="{% url 'subcatigory_add' %}"> Home</a>
                                   <span class="brd-separetor">/</span>
-                                  <span class="breadcrumb-item active">Создание </span>
+                                  <span class="breadcrumb-item active">Редактирование {{ subcatigory.subcategory }}</span>
                                 </nav>
                             </div>
                         </div>
@@ -174,26 +177,9 @@
         <!-- Start Login Register Area -->
          <!-- End Bradcaump area -->
         <!-- Start Login Register Area -->
-        <div class="categories-menu mrg-xs">
-            <div class="category-heading">
-               <h3> Администрирование </h3>
-            </div>
-            <div class="category-menu-list">
-                
-
-             
-                <ul>
-                    {% if request.user.is_superuser %}
-                    <li><a href="{% url 'products_add'%}"><img alt="" src="{% static 'images/icons/thum3.png' %}">Редактировать продукты<i class="zmdi zmdi-chevron-right"></i></a>
-                        <li><a href="{% url 'category_add'%}"><img alt="" src="{% static 'images/icons/thum3.png' %}">Редактировать Категорий<i class="zmdi zmdi-chevron-right"></i></a>
-                            <li><a href="{% url 'subcatigory_add'%}"><img alt="" src="{% static 'images/icons/thum3.png' %}">Редактировать Поткатегорий<i class="zmdi zmdi-chevron-right"></i></a>
-                    </li> 
-                    {% endif %}
-                   
-                </ul>
-                
-            </div>
-        </div>
+ 
+        
+        
         <div class="htc__login__register bg__white ptb--130">
             <div class="container">
 
@@ -202,7 +188,72 @@
                     <div class="col-md-6 col-md-offset-3">
                         <div class="htc__login__register__wrap">
                             <!-- Start Single Content -->
+                            <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade in active">
+                                <style> 
+                                       /* text-field */
 
+                                    </style>
+                                                    
+                                
+                                   <ul class="login__register__menu" role="tablist">
+                                    <li role="presentation" class="login"><a >{{ subcatigory.subcategory }}</a></li>
+                                </ul>
+                                    <form method="POST" data-ajax="false" enctype="multipart/form-data">
+                                        {% for message in messages %}
+                                        <li class="alert alert-success" style="color: black;">{{ message }}</li>
+                                        {% endfor %}
+                                        {% csrf_token %}
+                                       
+                 
+                                        <tr>
+                                            <th><label for="id_subcategory">Подкатигория:</label></th>
+                                            <td>
+                                        
+                                              <input type="text" name="subcategory" placeholder="Название подкатигория" class="text-field__input" required id="id_subcategory" value="{{ subcatigory.subcategory  }}">
+                                        
+                                        
+                                            </td>
+                                          </tr>
+                                        
+                                          <tr>
+                                            <th><label for="id_category_product">Категория</label></th>
+                                            <td>
+                                        
+                                              <select name="category_product" required id="id_category_product">
+                                          <option value="{{ subcatigory.category_product.id }}" selected>{{ subcatigory.category_product.name }}</option>
+                                        {% for category in category %}
+                                          <option value="{{ category.id }}">{{ category.name  }}</option>
+                                        {% endfor %}
+                                        
+                                        </select>
+                                        
+                                        
+                                        
+                                        
+                                            </td>
+                                          </tr>
+                               
+                                <div class="htc__login__btn mt--30">
+                                    <button ><a>OK</a></button>
+                                    <button ><a href="{% url 'subcatigories_delete' subcatigory.subcategories_slug %}">удалить</a></button>
+                                
+                                </div>
+                                
+                                </form>
+                           
+                                <div class="htc__social__connect">
+                                    <h2>Or Login With</h2>
+                                    <ul class="htc__soaial__list">
+                                        <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+
+                                        <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                                        <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                                        <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
             
 
 

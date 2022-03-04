@@ -1,6 +1,6 @@
 
 
-
+{% load static %}
 
 
 
@@ -17,25 +17,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="telephone=no" name="format-detection">
     <title></title>
-    <!--[if (mso 16)]>
-    <style type="text/css">
-    a {text-decoration: none;}
-    </style>
-    <![endif]-->
-    <!--[if gte mso 9]><style>sup { font-size: 100% !important; }</style><![endif]-->
-    <!--[if gte mso 9]>
-<xml>
-    <o:OfficeDocumentSettings>
-    <o:AllowPNG></o:AllowPNG>
-    <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-</xml>
-<![endif]-->
 
 
-
-
-    <!--<![endif]-->
 </head>
 
 
@@ -58,7 +41,7 @@
                                     <td class="esd-stripe" align="center">
                                         <table class="es-content-body" style="background-color: #ffffff; background-image: url({{ my_oreder.product.image.url }}); background-repeat: no-repeat; background-position: center center;" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" background="https://tlr.stripocdn.email/content/guids/CABINET_0e8fbb6adcc56c06fbd3358455fdeb41/images/vector_0Ia.png">
                                             <tbody>
-                                                <img src="{{ my_oreder.product.image.url }}">
+                                                <img src=''>
                                                 <tr>
                                                     <td class="esd-structure es-p20t es-p10b es-p20r es-p20l" align="left">
                                                         <table cellpadding="0" cellspacing="0" width="100%">
@@ -96,19 +79,19 @@
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td align="center" class="esd-block-text es-p10t es-p10b">
-                                                                                        <p>&nbsp;{{  my_oreder.product.title }}</p>
+                                                                                        <h2><p>&nbsp;{{  my_oreder.product.title }}</p></h2>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                              
                                                                                 <tr>
                                                                                     <td align="center" class="esd-block-text es-p10t es-p10b">
-                                                                                        <p>Количество: {{ my_oreder.qty }}</p>
+                                                                                        <h3><p>Количество: {{ my_oreder.qty }}</p></h3>
                                                                                     </td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td align="center" class="esd-block-text es-p10t es-p10b">
-                                                                                        <p>Общая сумма {{ my_oreder.final_price }} </p>
+                                                                                        <h3><p>Общая сумма {{ my_oreder.final_price }} </p></h3>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>

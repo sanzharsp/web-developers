@@ -1,4 +1,3 @@
-from pyexpat import model
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -6,12 +5,11 @@ from django.core.exceptions import ValidationError
 from PIL import Image
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
+from django.contrib.contenttypes.fields import GenericRelation
 import pytz
 import datetime
 from ckeditor.fields import RichTextField
 from django.contrib.contenttypes.models import ContentType
-import uuid
 today = datetime.datetime.today()
 Astana=today.astimezone(pytz.timezone('Asia/Almaty'))
 DATA_TIME_FORMAT="%Y-%m-%d %H:%M:%S"
@@ -27,7 +25,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=255, verbose_name='Адрес', null=True, blank=True)
     create_customer=models.DateTimeField(verbose_name='Дата регистраций',auto_now_add=True)
     birth_date =models.DateTimeField(auto_now_add=True, verbose_name="Дата регистраций клиента")
-    orders = models.ManyToManyField('Order', verbose_name='Заказы покупателя', related_name='related_order')
+    orders = models.ManyToManyField('Order',blank=True, verbose_name='Заказы покупателя', related_name='related_order')
     def __str__(self):
         return "Клиент: {} {}".format(self.user.first_name, self.user.last_name)
     class Meta:
@@ -45,22 +43,18 @@ class Category(models.Model):
     slug=models.SlugField(unique=True)
     image = models.ImageField(verbose_name='Изображение')
     birth_date = models.DateTimeField(auto_now_add=True,verbose_name="Дата добавления категории")
-  
 
 
-
-    
     def __str__(self):
         return self.name
     class Meta:
         ordering = ['-birth_date']
         verbose_name='Категорий'
         verbose_name_plural='Категорий'
+
+
     def get_absolute_url(self):
         return reverse('category_detail', kwargs={'slug': self.slug})
-
-
-
 
 #подкатигория
 class subcategories(models.Model):
@@ -70,16 +64,12 @@ class subcategories(models.Model):
     birth_date =models.DateTimeField(auto_now_add=True,verbose_name="Дата добавления подкатегории")
     category_product=models.ForeignKey(Category, on_delete=models.CASCADE)
 
-   
-
     class Meta:
         ordering = ['-birth_date']
         verbose_name='Подкатегорий'
         verbose_name_plural='Подкатегорий'
     def __str__(self):
         return self.subcategory
-
-
 
 LIKE_CHOICES = (
     ('Like', 'Like'),
@@ -101,7 +91,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=9, decimal_places=0, verbose_name='Новая цена')
     count_product=models.DecimalField(max_digits=7,decimal_places=0,verbose_name="Количество товара",default=1)
     history_price=models.DecimalField(max_digits=9,decimal_places=0,verbose_name='Старая цена')
-    birth_date =models.DateTimeField(auto_now=True,  verbose_name="Дата добавления")
+    birth_date =models.DateTimeField(auto_now_add=True,  verbose_name="Дата добавления")
     old_discount=models.DecimalField(max_digits=9,decimal_places=0,verbose_name='Цена до скидки',default=0)
     discount=models.DecimalField(max_digits=2,decimal_places=0,verbose_name="Скидка в процентах",default=0)
     discount_end_date =models.DateTimeField( verbose_name="Дата окончания скидки",default=datetime.datetime.strptime(str_Astana_time,DATA_TIME_FORMAT))
@@ -111,10 +101,6 @@ class Product(models.Model):
     orders=models.DecimalField(max_digits=2000,decimal_places=0,verbose_name="Количество заказов",default=0)
     comments=GenericRelation('Comment')
 
-    
-
-
-
     class Meta:
         ordering = ['-birth_date']
         verbose_name='Продукт'
@@ -123,7 +109,6 @@ class Product(models.Model):
     def __str__(self):
         return str(self.title)
 
-    
 
     def clean_image(self):
         #рекомендуемое изображение 700x525
@@ -136,30 +121,13 @@ class Product(models.Model):
             resized_img.save(self.image.path)
         super().save()
 
-    
-        
+
     def clean(self):
-        self.old_discount=self.price
-        self.price = self.price - self.price*(self.discount/100)
-        self.id=self.id
-        super().save()
-        if int(self.discount) != 0:
-            self.history_price=self.old_discount
-            super().save()
-        if not self.slug:
-            self.slug=uuid.uuid4()
-            super().save()
+    
+          
         if  self.category_id and self.subcategor_id and self.category.name != self.subcategor.category_product.name:
             
             raise ValidationError('Категории у подкатегорий и продукта ({}!={}) не совподают \U0001F62A'.format(self.category.name,self.subcategor.category_product.name))
-
-
-
-      
-
-            
- 
-
 
 
 # Создание системы корзинаций 
@@ -289,7 +257,7 @@ class Order(models.Model):
 class New_Recomedation(models.Model):
     black_text=models.CharField(max_length=75,verbose_name="Черный текст")
     red_text=models.CharField(max_length=75,verbose_name="Красный текст")
-    images=models.ImageField(verbose_name="Изображение нового продукта")
+    images=models.ImageField(verbose_name="Изображение нового продукта !! желательно 1920 на 800")
     birth_date = models.DateTimeField(verbose_name="Дата добовления",auto_now_add=True)
     class Meta:
         ordering = ['-birth_date']
@@ -309,7 +277,7 @@ class New_Recomedation(models.Model):
 
 class REKLAMA(models.Model):
     products=models.ForeignKey(Product,verbose_name="продукт каторый рекламируют",on_delete=models.CASCADE)
-    image=models.ImageField(verbose_name="Изображение",null=True )
+    image=models.ImageField(verbose_name="Изображение 1171 на 300",null=True )
     text=models.TextField(verbose_name="Текст",null=True)
 
     class Meta:
@@ -326,3 +294,10 @@ class REKLAMA(models.Model):
             height = 300
             resized_img = img.resize((width, height), Image.ANTIALIAS)
             resized_img.save(self.image.path)
+
+
+#Рассылка news
+class NEWS_MODEL(models.Model):
+    email=models.EmailField()
+
+

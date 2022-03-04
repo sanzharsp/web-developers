@@ -1,23 +1,26 @@
 
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import redirect, render
+import os.path
 from django.db import transaction
 from django.http import HttpResponseRedirect,JsonResponse
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls.base import reverse
-from .forms import LoginView_Form_view,RegistrForm,CommentForm,Change_PasswordForm,New_Password,OrderForm
-from .models import (Cart, Comment, Customer, Product, Category, subcategories,New_Recomedation,REKLAMA,CartProduct)
+
+from project import settings
+from .forms import LoginView_Form_view,RegistrForm,CommentForm,Change_PasswordForm,New_Password,OrderForm,email
+from .models import (Cart, Comment, Customer, Product, Category, subcategories,New_Recomedation,REKLAMA,CartProduct,NEWS_MODEL)
 from django.urls import reverse_lazy
 from django.views.generic import  View, ListView
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User
 from django.views.generic import DetailView, View
-from django.contrib.auth.mixins import LoginRequiredMixin
 from .cartmixin import CartMixin
-from .utils import recalc_cart,Randomaizer
+from .utils import recalc_cart,Randomaizer,ajax_utils_loaded
 from django.contrib import messages
 from django.db.models import Q
 from django.core.mail import EmailMultiAlternatives
+from email.mime.image import MIMEImage
 from .utils import create_comments_tree,token_generator,token_generator_2,token_generator_password
 from django.utils.encoding import force_bytes,force_str
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
@@ -25,6 +28,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import get_template
 import pytz
 import datetime
+
+
 
 
 today = datetime.datetime.now()
@@ -76,6 +81,17 @@ def discount(request):
             discount_view.price=discount_view.old_discount
             discount_view.discount=0
             discount_view.save()
+#проверка почты
+def verificate_email(request):
+    # если ползеватель автаризован
+    customer_verificate=None
+    if request.user.is_authenticated:
+        try:
+            customer = User.objects.get(username=request.user)
+            customer_verificate=Customer.objects.get(user=customer.id)
+        except:
+            customer_verificate=None
+    return customer_verificate
 
 
 
@@ -294,7 +310,8 @@ class ProductDetailView(CartMixin,View):
                 'comments_get_id':comments_get_id,
                 'comments_view':comments_view,
                 'comment_form':comment_form,
-                'comments_count':comments_count
+                'comments_count':comments_count,
+                'customer_verificate':verificate_email(request)
                
                 }
         return render(request,'product-details-sticky-right.html', context)
@@ -306,7 +323,7 @@ class Product_categoty_all(CartMixin,View):
         products = Product.objects.all()
         catigories=Category.objects.get(id=pk)
         catigories_all=Category.objects.all()
-        context={'products':products,'catigories':catigories,'cart':cart(request),'catigories_all':catigories_all}
+        context={'products':products,'catigories':catigories,'cart':cart(request),'catigories_all':catigories_all,'customer_verificate':verificate_email(request)}
         return render(request,'catigories.html', context)
 
 
@@ -329,7 +346,7 @@ def create_comment(request,pk):
         new_comment.timestamp=Astana.strftime(DATA_TIME_FORMAT)
         new_comment.is_child=False
         new_comment.save()
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/Product/{}/product_detail'.format(pk))
 
 
 def create_child_comment(request,pk):
@@ -351,10 +368,10 @@ def create_child_comment(request,pk):
 
     
 # система лайков продукта
-class AddLike(LoginRequiredMixin,View):
+class AddLike(View):
     def post(self,request,pk,*args,**kwargs):
-        post_id = request.POST.get('post_id')
-        post=Product.objects.get(id=pk)
+        posts=request.POST.get('post_id')
+        post=Product.objects.get(pk=posts)
         is_like=False
         for like in post.likes.all():
             if like==request.user:
@@ -369,7 +386,7 @@ class AddLike(LoginRequiredMixin,View):
           
         post.save()
         
-        data={  'post_id':post_id,
+        data={  
                 'is_like':is_like,
                 'post_like':post.likes.all().count(),
         }
@@ -385,7 +402,8 @@ class CartView(CartMixin, View):
         categories = Category.objects.all()
         context = {
             'cart': self.cart,
-            'categories': categories
+            'categories': categories,
+            'customer_verificate':verificate_email(request)
         }
         return render(request, 'cart.html', context)
 
@@ -447,17 +465,21 @@ class ChangeQTYView(CartMixin, View):
         cart_product = CartProduct.objects.get(
             user=self.cart.owner, cart=self.cart, product=product
         )
-        qty = int(request.POST.get('qty'))
+        qty=1
+        try:
+            qty = int(request.POST.get('qty'))
+        except:
+            pass       
         if product.count_product >=qty:
             cart_product.qty = qty
 
             cart_product.save()
             recalc_cart(self.cart)
-            messages.success(request, "Кол-во успешно изменено")
-            return HttpResponseRedirect('/cart/')
+            data={'success':"Кол-во успешно изменено на {}".format(qty),'product':product.price,"final_price":self.cart.final_price}
+            return JsonResponse(data,safe=False)
         else:
-            messages.error(request, "Товара не хватает")
-            return HttpResponseRedirect('/cart/')
+            data={'errors':"Товара не хватает"}
+            return JsonResponse(data,safe=False)
 
 
 class Index(DetailView,CartMixin, View):
@@ -469,25 +491,20 @@ class Index(DetailView,CartMixin, View):
         #логика скидок
         discount(request)
 
-
-        # если ползеватель автаризован
-        customer_verificate=None
-        if request.user.is_authenticated:
-            try:
-                customer = User.objects.get(username=request.user)
-                customer_verificate=Customer.objects.get(user=customer.id)
-            except:
-                customer_verificate=None
         
         categories = Category.objects.all()
-        products,best_stale,top_order = Product.objects.all()[:75],Product.objects.order_by('-orders')[:75],Product.objects.order_by('-likes')[:75]
+        products,best_stale,top_order=0,0,0
+        recomndation_0,recomndation_1,recomndation_2,recomndation_0_subcotegeries,recomndation_1_subcotegeries,recomndation_2_subcotegeries=0,0,0,0,0,0
+        try:
+            products,best_stale,top_order = Product.objects.all()[:75],Product.objects.order_by('-orders')[:75],Product.objects.order_by('-likes')[:75]
+        except:
+            pass
         advertising=REKLAMA.objects.all()[:5]
 
         subcatigories=subcategories.objects.all()[:75]
         title=New_Recomedation.objects.all()[:7]
-        index_random=Randomaizer().randoms(subcategories.objects.all().count())
-        recomndation_0,recomndation_1,recomndation_2=0,0,0
-        recomndation_0_subcotegeries,recomndation_1_subcotegeries,recomndation_2_subcotegeries=0,0,0
+        
+        index_random=Randomaizer().randoms(subcategories)
         try:
             recomndation_0=Product.objects.filter(subcategor=subcategories.objects.get(pk=index_random[0]))[:12]
             recomndation_1=Product.objects.filter(subcategor=subcategories.objects.get(pk=index_random[1]))[:12]
@@ -497,6 +514,7 @@ class Index(DetailView,CartMixin, View):
             recomndation_2_subcotegeries=subcategories.objects.get(pk=index_random[2])
         except:
             pass
+        
 
         context = {
                
@@ -511,7 +529,7 @@ class Index(DetailView,CartMixin, View):
                 'recomndation_1':recomndation_1,
                 'recomndation_2':recomndation_2,
                 'recomndation_0_subcotegeries':recomndation_0_subcotegeries,'recomndation_1_subcotegeries':recomndation_1_subcotegeries,'recomndation_2_subcotegeries':recomndation_2_subcotegeries,
-                'customer_verificate':customer_verificate,
+                'customer_verificate':verificate_email(request),
                 'advertising':advertising,
                
              
@@ -526,10 +544,33 @@ class Index(DetailView,CartMixin, View):
     def errors_404(self,request):
         return render(request,'404.html' )
 
+
+    
+
+
     def shop(self,request):
-        products = Product.objects.all()
-        context={'cart':cart(request),'products':products}
+   
+  
+        
+      
+        products = Product.objects.all()[0:4]
+    
+           
+        context={'cart':cart(request),'products':products,'customer_verificate':verificate_email(request),}
+      
         return render(request,'shop.html',context)
+
+
+    def ajax_shop(self,request):
+      
+        count = request.GET.get('val')
+        count_ = request.GET.get('val_')
+       
+        iter=Product.objects.all()[int(count_):int(count)].count()
+        data={'mas':iter,'result':ajax_utils_loaded(request,Product.objects.all()[int(count_):int(count)])}
+        return JsonResponse(data,safe=False)
+
+
 
     def shop_sidebar(self,request):
         return render(request,'shop-sidebar.html')
@@ -549,8 +590,6 @@ class Index(DetailView,CartMixin, View):
     def team(self,request):
         return render(request,'team.html')
 
-    ###def product_details(self,request):
-      ####  return render(request,'product-details-sticky-right.html')
 
     def index_2(self,request):
         title=New_Recomedation.objects.all()
@@ -606,16 +645,27 @@ class Index(DetailView,CartMixin, View):
 
 #Поиск в сайте 
 
-class SearchResultsView(ListView):
-    model = Product
-    template_name = 'extends.html'
-    def get_queryset(self): 
-        query = self.request.GET.get('q')
+class SearchResultsView(View):
+    def get(self,request,*args, **kwargs):
+        query = self.request.GET.get('val')
+        object_list__iexact = Product.objects.filter(
+            Q(title__contains=query)
+        )
+        mas=[]
+        for qery in object_list__iexact:
+            mas.append(qery.title)
+    
+        data={'mas':mas}
+    
+        return JsonResponse(data,safe=False)
+
+    def get_mod(self,request,*args, **kwargs):
+        query = request.GET.get('quryset')
         object_list__iexact = Product.objects.filter(
             Q(title__contains=query)
         )
     
-        return object_list__iexact
+        return render(request,'extends.html',{'object_list':object_list__iexact})
 
 
 class Filters(ListView):
@@ -699,12 +749,25 @@ class MakeOrderView(CartMixin, View):
                     return HttpResponseRedirect('/make-order')
             htmly= get_template('Email/orders.html')
             text_content = 'None'
-            d={'customer':new_order.customer,'my_oreder':new_order.cart.products.all()}                   
-            html_content = htmly.render(d)
+           
+           
+             
+            
+            
+            
             subject, from_email, to = 'Заказ','click@noreply.com',User.objects.get(username=request.user).email
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            for i in new_order.cart.products.all():
+                path=os.path.abspath(__file__).replace('project1\\views.py','media\\')+str(i.product.image)
+                image_name=i.product.image
+                with open(path, mode='rb') as f:
+                    image = MIMEImage(f.read())
+                    msg.attach(image)
+                   
+            d={'customer':new_order.customer,'my_oreder':new_order.cart.products.all(),} 
+            html_content = htmly.render(d)     
             msg.attach_alternative(html_content, "text/html")
-            msg.send(fail_silently=False)
+            msg.send(fail_silently=True)
             messages.success(request, 'Спасибо за заказ! Менеджер с Вами свяжется')
             return HttpResponseRedirect('/make-order')
         return HttpResponseRedirect('/make-order')
@@ -715,3 +778,18 @@ class MY_ORDERS(View):
         context={'my_oreder':none(request),'cart':cart(request),}
         return render(request,'my_orders.html',context)
      
+
+
+#Эмайл рассылка 
+class News_view(View):
+    def post(self,request):
+        form=email(request.POST)
+       
+        if form.is_valid():
+            NEWS_MODEL.objects.create(
+                email=form.cleaned_data['email'],
+                
+            )
+        
+        data={'bool':form.is_valid()}
+        return HttpResponseRedirect('index')

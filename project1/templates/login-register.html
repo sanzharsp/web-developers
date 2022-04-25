@@ -1,0 +1,288 @@
+{% extends 'extends.html' %}
+{% load static %}
+
+{% block content %}
+<!--<audio autoplay="autoplay" src="{% static 'music/the_witcher_3_wild_hunt_01 The Trail.mp3' %}"  id="bgAudio">
+</audio>-->
+<script>
+    var audio = document.getElementById("bgAudio");
+    audio.volume = 0.1;
+  </script>
+
+        <!-- End Header Style -->
+        
+        <div class="body__overlay"></div>
+        <!-- Start Offset Wrapper -->
+        <div class="offset__wrapper">
+            <!-- Start Search Popap -->
+            <div class="search__area">
+                <div class="container" >
+                    <div class="row" >
+                        <div class="col-md-12" >
+                            <div class="search__inner">
+                                <form action="#" method="get">
+                                    <input placeholder="Search here... " type="text">
+                                    <button type="submit"></button>
+                                </form>
+                                <div class="search__close__btn">
+                                    <span class="search__close__btn_icon"><i class="zmdi zmdi-close"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Search Popap -->
+            <!-- Start Offset MEnu -->
+            <div class="offsetmenu">
+                <div class="offsetmenu__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="off__contact">
+                        <div class="logo">
+                            <a href="{% url 'index' %}">
+                                <img src="{% static 'images/logo/logo.png' %}" alt="logo">
+                            </a>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetu adipisicing elit sed do eiusmod tempor incididunt ut labore.</p>
+                    </div>
+                    <ul class="sidebar__thumd">
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/1.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/2.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/3.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/4.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/5.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/6.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/7.jpg' %}" alt="sidebar images"></a></li>
+                        <li><a href="#"><img src="{% static 'images/sidebar-img/8.jpg' %}" alt="sidebar images"></a></li>
+                    </ul>
+                    <div class="offset__widget">
+                        <div class="offset__single">
+                            <h4 class="offset__title">Language</h4>
+                            <ul>
+                                <li><a href="#"> Engish </a></li>
+                                <li><a href="#"> French </a></li>
+                                <li><a href="#"> German </a></li>
+                            </ul>
+                        </div>
+                        <div class="offset__single">
+                            <h4 class="offset__title">Currencies</h4>
+                            <ul>
+                                <li><a href="#"> USD : Dollar </a></li>
+                                <li><a href="#"> EUR : Euro </a></li>
+                                <li><a href="#"> POU : Pound </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="offset__sosial__share">
+                        <h4 class="offset__title">Follow Us On Social</h4>
+                        <ul class="off__soaial__link">
+                            <li><a class="bg--twitter" href="#"  title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                            
+                            <li><a class="bg--instagram" href="#" title="Instagram"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                            <li><a class="bg--facebook" href="#" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                            <li><a class="bg--googleplus" href="#" title="Google Plus"><i class="zmdi zmdi-google-plus"></i></a></li>
+
+                            <li><a class="bg--google" href="#" title="Google"><i class="zmdi zmdi-google"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Offset MEnu -->
+            <!-- Start Cart Panel -->
+            <div class="shopping__cart">
+                <div class="shopping__cart__inner">
+                    <div class="offsetmenu__close__btn">
+                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                    </div>
+                    <div class="shp__cart__wrap">
+                        <div class="shp__single__product">
+                            <div class="shp__pro__thumb">
+                                <a href="#">
+                                    <img src="{% static 'images/product/sm-img/1.jpg' %}" alt="product images">
+                                </a>
+                            </div>
+                            <div class="shp__pro__details">
+                                <h2><a href="">BO&Play Wireless Speaker</a></h2>
+                                <span class="quantity">QTY: 1</span>
+                                <span class="shp__price">$105.00</span>
+                            </div>
+                            <div class="remove__btn">
+                                <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
+                            </div>
+                        </div>
+                        <div class="shp__single__product">
+                            <div class="shp__pro__thumb">
+                                <a href="#">
+                                    <img src="{% static 'images/product/sm-img/2.jpg' %}" alt="product images">
+                                </a>
+                            </div>
+                            <div class="shp__pro__details">
+                                <h2><a href="">Brone Candle</a></h2>
+                                <span class="quantity">QTY: 1</span>
+                                <span class="shp__price">$25.00</span>
+                            </div>
+                            <div class="remove__btn">
+                                <a href="#" title="Remove this item"><i class="zmdi zmdi-close"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="shoping__total">
+                        <li class="subtotal">Subtotal:</li>
+                        <li class="total__price">$130.00</li>
+                    </ul>
+                    <ul class="shopping__btn">
+                        <li><a href="{% url 'cart' %}">View Cart</a></li>
+                        <li class="shp__checkout"><a href="{% url 'make_order' %}">Checkout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- End Cart Panel -->
+        </div>
+        <!-- End Offset Wrapper -->
+        <!-- Start Bradcaump area -->
+        <div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url({% static 'images/bg/2.jpg' %}) no-repeat scroll center center / cover ;">
+            <div class="ht__bradcaump__wrap">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="bradcaump__inner text-center">
+                                <h2 class="bradcaump-title">login & Register</h2>
+                                <nav class="bradcaump-inner">
+                                  <a class="breadcrumb-item" href="{% url 'index' %}"> Home</a>
+                                  <span class="brd-separetor">/</span>
+                                  <span class="breadcrumb-item active">login & Register</span>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Bradcaump area -->
+        <!-- Start Login Register Area -->
+         <!-- End Bradcaump area -->
+        <!-- Start Login Register Area -->
+        <div class="htc__login__register bg__white ptb--130">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <ul class="login__register__menu" role="tablist">
+                            <li role="presentation" class="login"><a href="{% url 'login-register01' %}">Login</a></li>
+                            <li role="presentation"  class="register active"><a href="{% url 'login-register' %}"  >Register</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Start Login Register Content -->
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="htc__login__register__wrap">
+                            <!-- Start Single Content -->
+                            <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade in active">
+                                <style> 
+                                       /* text-field */
+
+                                    </style>
+                                   
+                                <form class="login" method="POST">
+                                    
+                                    {% csrf_token %}
+                                    
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                        <li>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                
+                                    {{ form.username }}
+                                    {% if form.username.errors %}
+                                    <div class="alert alert-danger">{{ form.username.errors }}</div>
+                                    {% endif %}
+                                    {{ form.username.help_text }}
+                                    <div class="password">
+                                        {{ form.password }}
+                                        <a href="#" class="password-control"  name="password"  onclick="return show_hide_password(this),show_hide_password_confirm(this); "></a>
+                                        <div id="block_check"></div>
+                                    </div>
+                                    <br>
+                                    {% if form.password.errors %}
+                                    <div class="alert alert-danger">{{ form.password.errors }}</div>
+                                    {% endif %}
+                                    {{ form.confirm_password }}
+                                    
+                                   <br>
+                                   <div style="padding: 5%; border-radius: 2% 2%  2% 2%;"  id="divCheckPasswordMatch"></div>
+                          
+                                    {% if form.confirm_password.errors %}
+                                    <div class="alert alert-danger">{{ form.confirm_password.errors }}</div>
+                                    
+                                    {% endif %}
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                    <div class="alert alert-danger">{{ form.phone.errors }}</div>
+                                    {% endif %}
+                                    {{ form.address }}
+                                    {% if form.address.errors %}
+                                    <div class="alert alert-danger">{{ form.address.errors }}</div>
+                                    {% endif %}
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                    <div class="alert alert-danger">{{ form.first_name.errors }}</div>
+                                    {% endif %}
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                    <div class="alert alert-danger">{{ form.last_name.errors }}</div>
+                                    {% endif %}
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                    <div class="alert alert-danger">{{ form.email.errors }}</div>
+                                    {% endif %}
+                                    {{ form.email.help_text }}
+                                    
+                            
+                                <div class="htc__login__btn mt--30">
+                                    <button id="musicSpan"><a>Register</a></button>
+                                    <audio id="sound" src="{% static 'music/the_witcher_3_quests_completed_sound.mp3' %}"></audio>
+
+                                    <script>var musicSpan = document.getElementById('musicSpan');
+                                    musicSpan.addEventListener('click',function(){
+                                    document.getElementById('sound').play()
+                                    audio.volume = 0.2;
+                                    })</script>
+                                </div>
+                                
+                                </form>
+                           
+                                <div class="htc__social__connect">
+                                    <h2>Or Login With</h2>
+                                    <ul class="htc__soaial__list">
+                                        <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+
+                                        <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                                        <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                                        <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+            
+
+
+
+
+                            <!-- End Single Content -->
+                        </div>
+                    </div>
+                </div>
+                <!-- End Login Register Content -->
+            </div>
+        </div>
+
+{% endblock content %}
+
+

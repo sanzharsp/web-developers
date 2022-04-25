@@ -1,0 +1,38 @@
+.product_discount {
+    position: relative; 
+    display: block;
+
+    background: gray; 
+  }
+  
+  .sale_discount{
+
+ 
+    position: absolute;
+    top:80%;
+    left:0%;
+    color: white;
+    background: red; 
+    padding: 10px;
+    border-radius: 10px;
+
+ 
+  }
+ 
+  .sale_new{
+    position: absolute;
+    top:0%;
+    left:0%;
+    color: white; 
+    padding: 7px;
+    border-radius: 10px;
+    box-shadow: 0 -200px 100px -120px red inset;
+    animation: background 3s infinite alternate;
+ 
+  }
+  @keyframes background {
+    50% {
+      background: rgb(235, 229, 232);
+      box-shadow: 100px 200px 100px -300px rgb(238, 26, 19) inset;
+    }
+  }

@@ -1,0 +1,290 @@
+
+
+{% load static %}
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="telephone=no" name="format-detection">
+    <title></title>
+
+
+</head>
+
+
+<body>
+    <div class="es-wrapper-color">
+        <!--[if gte mso 9]>
+			<v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t">
+				<v:fill type="tile" color="#07023c"></v:fill>
+			</v:background>
+		<![endif]-->
+        
+        <table class="es-wrapper" width="100%" cellspacing="0" cellpadding="0">
+            {% for my_oreder in my_oreder %}
+            <tbody>
+                <tr>
+                    <td class="esd-email-paddings" valign="top">
+                        <table class="es-content esd-header-popover" cellspacing="0" cellpadding="0" align="center">
+                            <tbody>
+                                <tr>
+                                    <td class="esd-stripe" align="center">
+                                        <table class="es-content-body" style="background-color: #ffffff; background-image: url({{ my_oreder.product.image.url }}); background-repeat: no-repeat; background-position: center center;" width="600" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" background="https://tlr.stripocdn.email/content/guids/CABINET_0e8fbb6adcc56c06fbd3358455fdeb41/images/vector_0Ia.png">
+                                            <tbody>
+                                                <img src=''>
+                                                <tr>
+                                                    <td class="esd-structure es-p20t es-p10b es-p20r es-p20l" align="left">
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td width="560" class="es-m-p0r esd-container-frame" valign="top" align="center">
+                                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-image" style="font-size: 0px;"><a target="_blank" href="https://viewstripo.email"><img src="{{ my_oreder.product.image.url }}" alt="Logo" style="display: block;" title="Logo" height="55"></a></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="esd-structure es-p30t es-p30b es-p20r es-p20l" align="left">
+                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="es-m-p0r es-m-p20b esd-container-frame" width="560" valign="top" align="center">
+                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-text">
+                                                                                       
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-image es-p15t es-p10b" style="font-size: 0px;"><a target="_blank" href=""><img class="adapt-img" src="{{ my_oreder.product.image.url }}" alt style="display: block;" height="300"></a></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-text es-p10t es-p10b">
+                                                                                        <h2><p>&nbsp;{{  my_oreder.product.title }}</p></h2>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                             
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-text es-p10t es-p10b">
+                                                                                        <h3><p>Количество: {{ my_oreder.qty }}</p></h3>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-text es-p10t es-p10b">
+                                                                                        <h3><p>Общая сумма {{ my_oreder.final_price }} </p></h3>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" class="es-content" align="center">
+                            <tbody>
+                                <tr>
+                                    <td class="esd-stripe" align="center">
+                                        <table bgcolor="#10054D" class="es-content-body" align="center" cellpadding="0" cellspacing="0" width="600" style="background-color: #10054d;">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="esd-structure es-p35t es-p35b es-p20r es-p20l" align="left" background="https://tlr.stripocdn.email/content/guids/CABINET_0e8fbb6adcc56c06fbd3358455fdeb41/images/vector_sSY.png" style="background-image: url(https://tlr.stripocdn.email/content/guids/CABINET_0e8fbb6adcc56c06fbd3358455fdeb41/images/vector_sSY.png); background-repeat: no-repeat; background-position: left center;">
+                                                        <!--[if mso]><table width="560" cellpadding="0" cellspacing="0"><tr><td width="69" valign="top"><![endif]-->
+                                                        <table cellpadding="0" cellspacing="0" class="es-left" align="left">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td width="69" class="es-m-p20b esd-container-frame" align="left">
+                                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-image es-m-txt-l" style="font-size: 0px;"><a target="_blank" href="https://viewstripo.email"><img src="https://tlr.stripocdn.email/content/guids/CABINET_dee64413d6f071746857ca8c0f13d696/images/group_118_lFL.png" alt style="display: block;" width="69"></a></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!--[if mso]></td><td width="20"></td><td width="471" valign="top"><![endif]-->
+                                                        <table cellpadding="0" cellspacing="0" class="es-right" align="right">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td width="471" align="left" class="esd-container-frame">
+                                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                                   
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!--[if mso]></td></tr></table><![endif]-->
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" class="es-footer" align="center">
+                            <tbody>
+                                <tr>
+                                    <td class="esd-stripe" align="center">
+                                        <table bgcolor="#ffffff" class="es-footer-body" align="center" cellpadding="0" cellspacing="0" width="600">
+                                            <tbody>
+                                                <tr>
+                                       
+                                                <tr>
+                                                    <td class="esd-structure es-p30t es-p20b es-p20r es-p20l esdev-adapt-off" align="left">
+                                                        <table width="560" cellpadding="0" cellspacing="0" class="esdev-mso-table">
+                                                       
+                                                                    <td width="20"></td>
+                                                                    <td class="esdev-mso-td" valign="top">
+                                                                        
+                                                                        <table cellpadding="0" cellspacing="0" class="es-right" align="right">
+                                                                            <tbody>
+                                                                                <tr class="es-mobile-hidden">
+                                                                                    <td width="62" align="left" class="esd-container-frame">
+                                                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td align="center" class="esd-block-spacer" height="40"></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" class="esd-footer-popover es-footer" align="center">
+                            <tbody>
+                                <tr>
+                                    <td class="esd-stripe" align="center">
+                                        <table class="es-footer-body" align="center" cellpadding="0" cellspacing="0" width="600" style="background-color: transparent;">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="esd-structure es-p20t es-p20b es-p20r es-p20l" align="left" esd-custom-block-id="541043">
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td width="560" class="esd-container-frame" align="left">
+                                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td class="esd-block-menu" esd-tmp-menu-padding="10|10" esd-tmp-menu-color="#ffffff" esd-tmp-divider="0|solid|#ffffff">
+                                                                                        <table cellpadding="0" cellspacing="0" width="100%" class="es-menu">
+                                                                                            <tbody>
+                                                                                                <tr class="links">
+                                                                                                    <td align="center" valign="top" width="25%" class="es-p10t es-p10b es-p5r es-p5l" style="padding-bottom: 10px;"><a target="_blank" href="https://viewstripo.email" style="color: #ffffff;">About us</a></td>
+                                                                                                    <td align="center" valign="top" width="25%" class="es-p10t es-p10b es-p5r es-p5l" style="padding-bottom: 10px;"><a target="_blank" href="https://viewstripo.email" style="color: #ffffff;">News</a></td>
+                                                                                                    <td align="center" valign="top" width="25%" class="es-p10t es-p10b es-p5r es-p5l" style="padding-bottom: 10px;"><a target="_blank" href="https://viewstripo.email" style="color: #ffffff;">Career</a></td>
+                                                                                                    <td align="center" valign="top" width="25%" class="es-p10t es-p10b es-p5r es-p5l" style="padding-bottom: 10px;"><a target="_blank" href="https://viewstripo.email" style="color: #ffffff;">The shops</a></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-social es-p10t es-p10b" style="font-size:0">
+                                                                                        <table cellpadding="0" cellspacing="0" class="es-table-not-adapt es-social">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td align="center" valign="top" class="es-p20r" esd-tmp-icon-type="facebook"><a target="_blank" href="https://viewstripo.email"><img title="Facebook" src="https://tlr.stripocdn.email/content/assets/img/social-icons/square-colored/facebook-square-colored.png" alt="Fb" width="32" height="32"></a></td>
+                                                                                                    <td align="center" valign="top" class="es-p20r" esd-tmp-icon-type="twitter"><a target="_blank" href="https://viewstripo.email"><img title="Twitter" src="https://tlr.stripocdn.email/content/assets/img/social-icons/square-colored/twitter-square-colored.png" alt="Tw" width="32" height="32"></a></td>
+                                                                                                    <td align="center" valign="top" class="es-p20r" esd-tmp-icon-type="instagram"><a target="_blank" href="https://viewstripo.email"><img title="Instagram" src="https://tlr.stripocdn.email/content/assets/img/social-icons/square-colored/instagram-square-colored.png" alt="Inst" width="32" height="32"></a></td>
+                                                                                                    <td align="center" valign="top" esd-tmp-icon-type="youtube"><a target="_blank" href="https://viewstripo.email"><img title="Youtube" src="https://tlr.stripocdn.email/content/assets/img/social-icons/square-colored/youtube-square-colored.png" alt="Yt" width="32" height="32"></a></td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td align="center" class="esd-block-text es-p10t es-p10b" esd-links-underline="underline">
+
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="esd-structure es-p20" align="left">
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td width="560" class="esd-container-frame" align="center" valign="top">
+                                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                                            <tbody>
+                                                                                <tr>
+
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+
+    </div>
+</body>
+
+</html>
